@@ -1,0 +1,7 @@
+enum StateID
+{
+    IDLE,
+    MOVING,
+    ATTACK,
+    PARRY
+}

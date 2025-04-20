@@ -1,0 +1,10 @@
+global
+{
+    entity_ref Survivor1;
+    entity_ref Survivor2;
+    
+    int BeatsMaxInterval;
+    int BeatsMinInterval;
+    FP BeatsRampPercentage;
+    int BeatsTimer;
+}

@@ -1,0 +1,11 @@
+component SurvivorData
+{
+    int SurvivorID;
+    
+    FPVector2 Position;
+    FPVector2 Facing;
+    FPVector2 Velocity;
+    
+    StateID CurrentState;
+    int StateFrame;
+}
