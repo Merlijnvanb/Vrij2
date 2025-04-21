@@ -94,7 +94,7 @@ namespace Quantum.Prototypes {
     public FPVector2 Facing;
     public FPVector2 Velocity;
     public Quantum.QEnum32<StateID> CurrentState;
-    public Int32 StateFrame;
+    public Int32 StateDuration;
     partial void MaterializeUser(Frame frame, ref Quantum.SurvivorData result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.SurvivorData component = default;
@@ -107,7 +107,7 @@ namespace Quantum.Prototypes {
         result.Facing = this.Facing;
         result.Velocity = this.Velocity;
         result.CurrentState = this.CurrentState;
-        result.StateFrame = this.StateFrame;
+        result.StateDuration = this.StateDuration;
         MaterializeUser(frame, ref result, in context);
     }
   }

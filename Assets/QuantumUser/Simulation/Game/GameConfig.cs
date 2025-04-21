@@ -5,5 +5,6 @@ namespace Quantum
     public class GameConfig : AssetObject
     {
         public FPVector2 BeatIntervalMaxMinSeconds;
+        public FP MoveVelocity = 5;
     }
 }

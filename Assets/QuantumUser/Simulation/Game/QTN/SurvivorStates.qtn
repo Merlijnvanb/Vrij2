@@ -1,7 +1,8 @@
 enum StateID
 {
     IDLE,
-    MOVING,
+    MOVE,
     ATTACK,
+    BLOCK,
     PARRY
 }

@@ -7,5 +7,5 @@ component SurvivorData
     FPVector2 Velocity;
     
     StateID CurrentState;
-    int StateFrame;
+    int StateDuration;
 }

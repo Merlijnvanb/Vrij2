@@ -51,8 +51,9 @@ namespace Quantum {
   
   public enum StateID : int {
     IDLE,
-    MOVING,
+    MOVE,
     ATTACK,
+    BLOCK,
     PARRY,
   }
   [System.FlagsAttribute()]
@@ -593,7 +594,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1160;
+    public const Int32 SIZE = 1168;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -632,6 +633,8 @@ namespace Quantum {
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
+    [FieldOffset(1160)]
+    public FP MoveVelocity;
     public FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 84, 6); }
@@ -658,6 +661,7 @@ namespace Quantum {
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
         hash = hash * 31 + BeatsRampPercentage.GetHashCode();
         hash = hash * 31 + BeatsTimer.GetHashCode();
+        hash = hash * 31 + MoveVelocity.GetHashCode();
         return hash;
       }
     }
@@ -681,6 +685,7 @@ namespace Quantum {
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
+        FP.Serialize(&p->MoveVelocity, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -716,7 +721,7 @@ namespace Quantum {
     [FieldOffset(8)]
     public StateID CurrentState;
     [FieldOffset(0)]
-    public Int32 StateFrame;
+    public Int32 StateDuration;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17389;
@@ -725,13 +730,13 @@ namespace Quantum {
         hash = hash * 31 + Facing.GetHashCode();
         hash = hash * 31 + Velocity.GetHashCode();
         hash = hash * 31 + (Int32)CurrentState;
-        hash = hash * 31 + StateFrame.GetHashCode();
+        hash = hash * 31 + StateDuration.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (SurvivorData*)ptr;
-        serializer.Stream.Serialize(&p->StateFrame);
+        serializer.Stream.Serialize(&p->StateDuration);
         serializer.Stream.Serialize(&p->SurvivorID);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
         FPVector2.Serialize(&p->Facing, serializer);

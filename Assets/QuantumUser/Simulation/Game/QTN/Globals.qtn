@@ -7,4 +7,6 @@ global
     int BeatsMinInterval;
     FP BeatsRampPercentage;
     int BeatsTimer;
+    
+    FP MoveVelocity;
 }
