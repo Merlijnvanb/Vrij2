@@ -9,4 +9,5 @@ global
     int BeatsTimer;
     
     FP MoveVelocity;
+    FP FrictionCoefficient;
 }

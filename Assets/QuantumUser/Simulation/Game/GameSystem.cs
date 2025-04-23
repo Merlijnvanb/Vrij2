@@ -16,6 +16,7 @@ namespace Quantum
             f.Global->BeatsRampPercentage = 0;
             f.Global->BeatsTimer = 0;
             f.Global->MoveVelocity = gameConfig.MoveVelocity;
+            f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
         }
         
         public override void Update(Frame f)

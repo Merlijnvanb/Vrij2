@@ -10,13 +10,17 @@ namespace Quantum
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
 
-            if (sData->StateDuration <= 0)
+            if (sData->IsStateDone)
             {
+                sData->IsStateDone = false;
                 sData->CurrentState = StateID.IDLE;
             }
-            else
+
+            switch (sData->CurrentState)
             {
-                sData->StateDuration--;
+                case StateID.MOVE:
+                    MovingState.Update(f, entityRef);
+                    break;
             }
         }
         
@@ -24,13 +28,13 @@ namespace Quantum
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
-            var state = WhichState(f, entityRef, out var directionVector);
+            var state = WhichState(f, entityRef);
             sData->CurrentState = state;
             
             switch (state)
             {
                 case StateID.MOVE:
-                    sData->Velocity = f.Global->MoveVelocity * directionVector; // make separate scripts for each state with initialize and update functions
+                    MovingState.Initialize(f, entityRef);
                     break;
                 
                 case StateID.ATTACK:
@@ -43,10 +47,9 @@ namespace Quantum
             }
         }
 
-        private static StateID WhichState(Frame f, EntityRef entityRef, out FPVector2 outDirVector)
+        private static StateID WhichState(Frame f, EntityRef entityRef)
         {
             var dirVector = InputHandler.GetDirectionVector(f, entityRef);
-            outDirVector = dirVector;
             
             if (dirVector != FPVector2.Zero)
             {

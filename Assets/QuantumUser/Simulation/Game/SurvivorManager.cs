@@ -24,6 +24,7 @@ namespace Quantum
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
             StateManager.InitializeState(f, entityRef);
+            Log.Debug("Survivor: " + sData->SurvivorID + "Current state: " + sData->CurrentState);
         }
     }
 }

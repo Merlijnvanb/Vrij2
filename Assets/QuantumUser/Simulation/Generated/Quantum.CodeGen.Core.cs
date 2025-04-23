@@ -594,7 +594,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1168;
+    public const Int32 SIZE = 1176;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -633,8 +633,10 @@ namespace Quantum {
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
-    [FieldOffset(1160)]
+    [FieldOffset(1168)]
     public FP MoveVelocity;
+    [FieldOffset(1160)]
+    public FP FrictionCoefficient;
     public FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 84, 6); }
@@ -662,6 +664,7 @@ namespace Quantum {
         hash = hash * 31 + BeatsRampPercentage.GetHashCode();
         hash = hash * 31 + BeatsTimer.GetHashCode();
         hash = hash * 31 + MoveVelocity.GetHashCode();
+        hash = hash * 31 + FrictionCoefficient.GetHashCode();
         return hash;
       }
     }
@@ -685,6 +688,7 @@ namespace Quantum {
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
+        FP.Serialize(&p->FrictionCoefficient, serializer);
         FP.Serialize(&p->MoveVelocity, serializer);
     }
   }
@@ -710,7 +714,7 @@ namespace Quantum {
   public unsafe partial struct SurvivorData : Quantum.IComponent {
     public const Int32 SIZE = 64;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(4)]
+    [FieldOffset(0)]
     public Int32 SurvivorID;
     [FieldOffset(32)]
     public FPVector2 Position;
@@ -720,8 +724,8 @@ namespace Quantum {
     public FPVector2 Velocity;
     [FieldOffset(8)]
     public StateID CurrentState;
-    [FieldOffset(0)]
-    public Int32 StateDuration;
+    [FieldOffset(4)]
+    public QBoolean IsStateDone;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17389;
@@ -730,14 +734,14 @@ namespace Quantum {
         hash = hash * 31 + Facing.GetHashCode();
         hash = hash * 31 + Velocity.GetHashCode();
         hash = hash * 31 + (Int32)CurrentState;
-        hash = hash * 31 + StateDuration.GetHashCode();
+        hash = hash * 31 + IsStateDone.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (SurvivorData*)ptr;
-        serializer.Stream.Serialize(&p->StateDuration);
         serializer.Stream.Serialize(&p->SurvivorID);
+        QBoolean.Serialize(&p->IsStateDone, serializer);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
         FPVector2.Serialize(&p->Facing, serializer);
         FPVector2.Serialize(&p->Position, serializer);

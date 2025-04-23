@@ -16,7 +16,7 @@ namespace Quantum
             var facing = survivorData.Facing.ToUnityVector2();
             var facing3D = new Vector3(facing.x, 0, facing.y);
             
-            Body.position = pos;
+            Body.position = new Vector3(pos.x, Body.position.y, pos.y);
             Body.rotation = Quaternion.LookRotation(facing3D, Vector3.up);
         }
     }
