@@ -18,6 +18,7 @@ namespace Quantum
                 sData->Facing = i == 1 ? new FPVector2(1, 0) : new FPVector2(-1, 0);
                 sData->Velocity = new FPVector2(0, 0);
                 sData->CurrentState = StateID.IDLE;
+                sData->StateFrame = 0;
                 sData->IsStateDone = false;
                 
                 if (i == 1)

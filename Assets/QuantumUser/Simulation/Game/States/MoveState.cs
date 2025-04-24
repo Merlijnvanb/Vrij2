@@ -4,7 +4,7 @@ namespace Quantum
     using UnityEngine.Scripting;
 
     [Preserve]
-    public unsafe class MovingState
+    public unsafe class MoveState
     {
         public static void Initialize(Frame f, EntityRef entityRef)
         {
@@ -12,7 +12,7 @@ namespace Quantum
             var directionVector = InputHandler.GetDirectionVector(f, entityRef);
             
             sData->Facing = directionVector;
-            sData->Velocity = f.Global->MoveVelocity * directionVector;
+            sData->Velocity = f.Global->MoveData.MoveVelocity * directionVector;
         }
 
         public static void Update(Frame f, EntityRef entityRef)

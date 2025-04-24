@@ -524,6 +524,41 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
+  public unsafe partial struct AttackData {
+    public const Int32 SIZE = 32;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public Int32 TotalFrames;
+    [FieldOffset(4)]
+    public Int32 StartupFrames;
+    [FieldOffset(0)]
+    public Int32 ActiveFrames;
+    [FieldOffset(24)]
+    public FP Range;
+    [FieldOffset(16)]
+    public FP Knockback;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 8563;
+        hash = hash * 31 + TotalFrames.GetHashCode();
+        hash = hash * 31 + StartupFrames.GetHashCode();
+        hash = hash * 31 + ActiveFrames.GetHashCode();
+        hash = hash * 31 + Range.GetHashCode();
+        hash = hash * 31 + Knockback.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (AttackData*)ptr;
+        serializer.Stream.Serialize(&p->ActiveFrames);
+        serializer.Stream.Serialize(&p->StartupFrames);
+        serializer.Stream.Serialize(&p->TotalFrames);
+        FP.Serialize(&p->Knockback, serializer);
+        FP.Serialize(&p->Range, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
     public const Int32 SIZE = 84;
     public const Int32 ALIGNMENT = 4;
@@ -593,8 +628,44 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
+  public unsafe partial struct MoveData {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public FP MoveVelocity;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 15013;
+        hash = hash * 31 + MoveVelocity.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (MoveData*)ptr;
+        FP.Serialize(&p->MoveVelocity, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
+  public unsafe partial struct ParryData {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 10111;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (ParryData*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1176;
+    public const Int32 SIZE = 1208;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -633,10 +704,14 @@ namespace Quantum {
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
-    [FieldOffset(1168)]
-    public FP MoveVelocity;
     [FieldOffset(1160)]
     public FP FrictionCoefficient;
+    [FieldOffset(1168)]
+    public MoveData MoveData;
+    [FieldOffset(1176)]
+    public AttackData AttackData;
+    [FieldOffset(1132)]
+    public ParryData ParryData;
     public FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 84, 6); }
@@ -663,8 +738,10 @@ namespace Quantum {
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
         hash = hash * 31 + BeatsRampPercentage.GetHashCode();
         hash = hash * 31 + BeatsTimer.GetHashCode();
-        hash = hash * 31 + MoveVelocity.GetHashCode();
         hash = hash * 31 + FrictionCoefficient.GetHashCode();
+        hash = hash * 31 + MoveData.GetHashCode();
+        hash = hash * 31 + AttackData.GetHashCode();
+        hash = hash * 31 + ParryData.GetHashCode();
         return hash;
       }
     }
@@ -685,11 +762,13 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->BeatsMaxInterval);
         serializer.Stream.Serialize(&p->BeatsMinInterval);
         serializer.Stream.Serialize(&p->BeatsTimer);
+        Quantum.ParryData.Serialize(&p->ParryData, serializer);
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
         FP.Serialize(&p->FrictionCoefficient, serializer);
-        FP.Serialize(&p->MoveVelocity, serializer);
+        Quantum.MoveData.Serialize(&p->MoveData, serializer);
+        Quantum.AttackData.Serialize(&p->AttackData, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -714,7 +793,7 @@ namespace Quantum {
   public unsafe partial struct SurvivorData : Quantum.IComponent {
     public const Int32 SIZE = 64;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     public Int32 SurvivorID;
     [FieldOffset(32)]
     public FPVector2 Position;
@@ -722,9 +801,11 @@ namespace Quantum {
     public FPVector2 Facing;
     [FieldOffset(48)]
     public FPVector2 Velocity;
-    [FieldOffset(8)]
+    [FieldOffset(12)]
     public StateID CurrentState;
-    [FieldOffset(4)]
+    [FieldOffset(0)]
+    public Int32 StateFrame;
+    [FieldOffset(8)]
     public QBoolean IsStateDone;
     public override Int32 GetHashCode() {
       unchecked { 
@@ -734,12 +815,14 @@ namespace Quantum {
         hash = hash * 31 + Facing.GetHashCode();
         hash = hash * 31 + Velocity.GetHashCode();
         hash = hash * 31 + (Int32)CurrentState;
+        hash = hash * 31 + StateFrame.GetHashCode();
         hash = hash * 31 + IsStateDone.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (SurvivorData*)ptr;
+        serializer.Stream.Serialize(&p->StateFrame);
         serializer.Stream.Serialize(&p->SurvivorID);
         QBoolean.Serialize(&p->IsStateDone, serializer);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
@@ -842,6 +925,7 @@ namespace Quantum {
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {
       typeRegistry.Register(typeof(AssetGuid), AssetGuid.SIZE);
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
+      typeRegistry.Register(typeof(Quantum.AttackData), Quantum.AttackData.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet1024), Quantum.BitSet1024.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet128), Quantum.BitSet128.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet2048), Quantum.BitSet2048.SIZE);
@@ -887,6 +971,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(LayerMask), LayerMask.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
+      typeRegistry.Register(typeof(Quantum.MoveData), Quantum.MoveData.SIZE);
       typeRegistry.Register(typeof(NavMeshAvoidanceAgent), NavMeshAvoidanceAgent.SIZE);
       typeRegistry.Register(typeof(NavMeshAvoidanceObstacle), NavMeshAvoidanceObstacle.SIZE);
       typeRegistry.Register(typeof(NavMeshPathfinder), NavMeshPathfinder.SIZE);
@@ -896,6 +981,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(NullableFPVector2), NullableFPVector2.SIZE);
       typeRegistry.Register(typeof(NullableFPVector3), NullableFPVector3.SIZE);
       typeRegistry.Register(typeof(NullableNonNegativeFP), NullableNonNegativeFP.SIZE);
+      typeRegistry.Register(typeof(Quantum.ParryData), Quantum.ParryData.SIZE);
       typeRegistry.Register(typeof(PhysicsBody2D), PhysicsBody2D.SIZE);
       typeRegistry.Register(typeof(PhysicsBody3D), PhysicsBody3D.SIZE);
       typeRegistry.Register(typeof(PhysicsCallbacks2D), PhysicsCallbacks2D.SIZE);

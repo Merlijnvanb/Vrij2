@@ -50,6 +50,24 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AttackData))]
+  public unsafe partial class AttackDataPrototype : StructPrototype {
+    public Int32 TotalFrames;
+    public Int32 StartupFrames;
+    public Int32 ActiveFrames;
+    public FP Range;
+    public FP Knockback;
+    partial void MaterializeUser(Frame frame, ref Quantum.AttackData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.AttackData result, in PrototypeMaterializationContext context = default) {
+        result.TotalFrames = this.TotalFrames;
+        result.StartupFrames = this.StartupFrames;
+        result.ActiveFrames = this.ActiveFrames;
+        result.Range = this.Range;
+        result.Knockback = this.Knockback;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public Button Left;
@@ -68,6 +86,26 @@ namespace Quantum.Prototypes {
         result.Attack = this.Attack;
         result.Block = this.Block;
         result.Parry = this.Parry;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.MoveData))]
+  public unsafe partial class MoveDataPrototype : StructPrototype {
+    public FP MoveVelocity;
+    partial void MaterializeUser(Frame frame, ref Quantum.MoveData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.MoveData result, in PrototypeMaterializationContext context = default) {
+        result.MoveVelocity = this.MoveVelocity;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ParryData))]
+  public unsafe partial class ParryDataPrototype : StructPrototype {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.ParryData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ParryData result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -94,6 +132,7 @@ namespace Quantum.Prototypes {
     public FPVector2 Facing;
     public FPVector2 Velocity;
     public Quantum.QEnum32<StateID> CurrentState;
+    public Int32 StateFrame;
     public QBoolean IsStateDone;
     partial void MaterializeUser(Frame frame, ref Quantum.SurvivorData result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -107,6 +146,7 @@ namespace Quantum.Prototypes {
         result.Facing = this.Facing;
         result.Velocity = this.Velocity;
         result.CurrentState = this.CurrentState;
+        result.StateFrame = this.StateFrame;
         result.IsStateDone = this.IsStateDone;
         MaterializeUser(frame, ref result, in context);
     }

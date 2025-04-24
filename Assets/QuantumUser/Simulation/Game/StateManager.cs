@@ -12,14 +12,21 @@ namespace Quantum
 
             if (sData->IsStateDone)
             {
-                sData->IsStateDone = false;
                 sData->CurrentState = StateID.IDLE;
             }
 
             switch (sData->CurrentState)
             {
                 case StateID.MOVE:
-                    MovingState.Update(f, entityRef);
+                    MoveState.Update(f, entityRef);
+                    break;
+                
+                case StateID.ATTACK:
+                    AttackState.Update(f, entityRef);
+                    break;
+                
+                case StateID.PARRY:
+                    ParryState.Update(f, entityRef);
                     break;
             }
         }
@@ -30,19 +37,21 @@ namespace Quantum
             
             var state = WhichState(f, entityRef);
             sData->CurrentState = state;
+            sData->StateFrame = 0;
+            sData->IsStateDone = false;
             
             switch (state)
             {
                 case StateID.MOVE:
-                    MovingState.Initialize(f, entityRef);
+                    MoveState.Initialize(f, entityRef);
                     break;
                 
                 case StateID.ATTACK:
-                    
+                    AttackState.Initialize(f, entityRef);
                     break;
                 
                 case StateID.PARRY:
-                    
+                    ParryState.Initialize(f, entityRef);
                     break;
             }
         }

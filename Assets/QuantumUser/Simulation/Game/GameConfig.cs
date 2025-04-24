@@ -5,7 +5,10 @@ namespace Quantum
     public class GameConfig : AssetObject
     {
         public FPVector2 BeatIntervalMaxMinSeconds;
-        public FP MoveVelocity = 5;
-        public FP FrictionCoefficient = FP._0_50;
+        public FP FrictionCoefficient;
+        
+        public MoveData MoveData;
+        public AttackData AttackData;
+        public ParryData ParryData;
     }
 }

@@ -8,6 +8,32 @@ global
     FP BeatsRampPercentage;
     int BeatsTimer;
     
-    FP MoveVelocity;
     FP FrictionCoefficient;
+    
+    MoveData MoveData;
+    AttackData AttackData;
+    ParryData ParryData;
+}
+
+[Serializable]
+struct MoveData
+{
+    FP MoveVelocity;
+}
+
+[Serializable]
+struct AttackData
+{
+    int TotalFrames;
+    int StartupFrames;
+    int ActiveFrames;
+    
+    FP Range;
+    FP Knockback;
+}
+
+[Serializable]
+struct ParryData
+{
+
 }

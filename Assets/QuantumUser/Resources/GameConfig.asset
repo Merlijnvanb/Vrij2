@@ -21,7 +21,13 @@ MonoBehaviour:
       RawValue: 327680
     Y:
       RawValue: 32768
-  MoveVelocity:
-    RawValue: 19661
   FrictionCoefficient:
     RawValue: 6554
+  MoveData:
+    MoveVelocity:
+      RawValue: 19661
+  AttackData:
+    Range:
+      RawValue: 0
+    Knockback:
+      RawValue: 0

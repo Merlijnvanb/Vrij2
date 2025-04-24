@@ -19,8 +19,8 @@ namespace Quantum
             i.Up = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.W) : UnityEngine.Input.GetKey(KeyCode.UpArrow);
             i.Down = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.S) : UnityEngine.Input.GetKey(KeyCode.DownArrow);
 
-            i.Attack = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.LeftControl) : UnityEngine.Input.GetKey(KeyCode.RightControl);
-            i.Block = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.LeftShift) : UnityEngine.Input.GetKey(KeyCode.RightShift);
+            i.Attack = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.LeftControl) : UnityEngine.Input.GetKey(KeyCode.RightShift);
+            i.Block = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.LeftShift) : UnityEngine.Input.GetKey(KeyCode.Return);
             i.Parry = callback.PlayerSlot == 0 ? UnityEngine.Input.GetKey(KeyCode.Space) : UnityEngine.Input.GetKey(KeyCode.Keypad0);
             
             callback.SetInput(CleanSOCD(i), DeterministicInputFlags.Repeatable);

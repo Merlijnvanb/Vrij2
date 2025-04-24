@@ -15,8 +15,10 @@ namespace Quantum
             f.Global->BeatsMinInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
             f.Global->BeatsRampPercentage = 0;
             f.Global->BeatsTimer = 0;
-            f.Global->MoveVelocity = gameConfig.MoveVelocity;
             f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
+            f.Global->MoveData = gameConfig.MoveData;
+            f.Global->AttackData = gameConfig.AttackData;
+            f.Global->ParryData = gameConfig.ParryData;
         }
         
         public override void Update(Frame f)
