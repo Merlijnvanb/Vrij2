@@ -13,6 +13,7 @@ global
     MoveData MoveData;
     AttackData AttackData;
     ParryData ParryData;
+    StunData StunData;
 }
 
 [Serializable]
@@ -35,5 +36,13 @@ struct AttackData
 [Serializable]
 struct ParryData
 {
+    int TotalFrames;
+    int StartupFrames;
+    int ActiveFrames;
+}
 
+[Serializable]
+struct StunData
+{
+    int Duration;
 }

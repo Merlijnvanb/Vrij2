@@ -4,5 +4,6 @@ enum StateID
     MOVE,
     ATTACK,
     BLOCK,
-    PARRY
+    PARRY,
+    STUN
 }

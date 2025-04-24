@@ -10,5 +10,6 @@ namespace Quantum
         public MoveData MoveData;
         public AttackData AttackData;
         public ParryData ParryData;
+        public StunData StunData;
     }
 }

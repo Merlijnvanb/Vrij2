@@ -102,10 +102,14 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.ParryData))]
   public unsafe partial class ParryDataPrototype : StructPrototype {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
+    public Int32 TotalFrames;
+    public Int32 StartupFrames;
+    public Int32 ActiveFrames;
     partial void MaterializeUser(Frame frame, ref Quantum.ParryData result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.ParryData result, in PrototypeMaterializationContext context = default) {
+        result.TotalFrames = this.TotalFrames;
+        result.StartupFrames = this.StartupFrames;
+        result.ActiveFrames = this.ActiveFrames;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -121,6 +125,16 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.PlayerLink result, in PrototypeMaterializationContext context = default) {
         result.PlayerRef = this.PlayerRef;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.StunData))]
+  public unsafe partial class StunDataPrototype : StructPrototype {
+    public Int32 Duration;
+    partial void MaterializeUser(Frame frame, ref Quantum.StunData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.StunData result, in PrototypeMaterializationContext context = default) {
+        result.Duration = this.Duration;
         MaterializeUser(frame, ref result, in context);
     }
   }

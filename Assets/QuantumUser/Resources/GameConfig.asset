@@ -18,7 +18,7 @@ MonoBehaviour:
       Value: 403324705608927822
   BeatIntervalMaxMinSeconds:
     X:
-      RawValue: 327680
+      RawValue: 131072
     Y:
       RawValue: 32768
   FrictionCoefficient:
@@ -27,7 +27,16 @@ MonoBehaviour:
     MoveVelocity:
       RawValue: 19661
   AttackData:
+    TotalFrames: 60
+    StartupFrames: 20
+    ActiveFrames: 10
     Range:
-      RawValue: 0
+      RawValue: 98304
     Knockback:
-      RawValue: 0
+      RawValue: 13107
+  ParryData:
+    TotalFrames: 60
+    StartupFrames: 15
+    ActiveFrames: 20
+  StunData:
+    Duration: 120

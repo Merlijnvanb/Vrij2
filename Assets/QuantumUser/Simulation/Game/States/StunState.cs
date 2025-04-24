@@ -4,7 +4,7 @@ namespace Quantum
     using UnityEngine.Scripting;
 
     [Preserve]
-    public unsafe class ParryState
+    public unsafe class StunState
     {
         public static void Initialize(Frame f, EntityRef entityRef)
         {
@@ -15,13 +15,18 @@ namespace Quantum
             
             var facing = (otherSData->Position - sData->Position).Normalized;
             sData->Facing = facing;
+            
+            sData->Velocity = -facing * f.Global->AttackData.Knockback;
         }
         
         public static void Update(Frame f, EntityRef entityRef)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
-            if (sData->StateFrame >= f.Global->ParryData.TotalFrames)
+            CalculateVelocity(f, entityRef);
+            ApplyVelocity(f, entityRef);
+            
+            if (sData->StateFrame >= f.Global->StunData.Duration)
             {
                 sData->IsStateDone = true;
             }
@@ -30,22 +35,23 @@ namespace Quantum
                 sData->StateFrame++;
             }
         }
-
-        public static bool IsActive(Frame f, EntityRef entityRef)
+        
+        private static void CalculateVelocity(Frame f, EntityRef entityRef)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
-            var isActive = sData->StateFrame >= f.Global->ParryData.StartupFrames && 
-                           sData->StateFrame < f.Global->ParryData.StartupFrames + f.Global->ParryData.ActiveFrames;
+            if (sData->Velocity.X != 0) sData->Velocity.X -= f.Global->FrictionCoefficient * sData->Velocity.X;
+            if (FPMath.Abs(sData->Velocity.X) < FP._0_01) sData->Velocity.X = 0;
             
-            return isActive;
+            if (sData->Velocity.Y != 0) sData->Velocity.Y -= f.Global->FrictionCoefficient * sData->Velocity.Y;
+            if (FPMath.Abs(sData->Velocity.Y) < FP._0_01) sData->Velocity.Y = 0;
         }
 
-        public static void OnSuccess(Frame f, EntityRef entityRef)
+        private static void ApplyVelocity(Frame f, EntityRef entityRef)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
-            sData->IsStateDone = true;
+            sData->Position += sData->Velocity;
         }
     }
 }

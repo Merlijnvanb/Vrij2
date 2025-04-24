@@ -55,6 +55,7 @@ namespace Quantum {
     ATTACK,
     BLOCK,
     PARRY,
+    STUN,
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
@@ -649,23 +650,52 @@ namespace Quantum {
   [StructLayout(LayoutKind.Explicit)]
   [Serializable()]
   public unsafe partial struct ParryData {
-    public const Int32 SIZE = 4;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
+    [FieldOffset(8)]
+    public Int32 TotalFrames;
+    [FieldOffset(4)]
+    public Int32 StartupFrames;
     [FieldOffset(0)]
-    private fixed Byte _alignment_padding_[4];
+    public Int32 ActiveFrames;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 10111;
+        hash = hash * 31 + TotalFrames.GetHashCode();
+        hash = hash * 31 + StartupFrames.GetHashCode();
+        hash = hash * 31 + ActiveFrames.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (ParryData*)ptr;
+        serializer.Stream.Serialize(&p->ActiveFrames);
+        serializer.Stream.Serialize(&p->StartupFrames);
+        serializer.Stream.Serialize(&p->TotalFrames);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
+  public unsafe partial struct StunData {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public Int32 Duration;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13217;
+        hash = hash * 31 + Duration.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (StunData*)ptr;
+        serializer.Stream.Serialize(&p->Duration);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1208;
+    public const Int32 SIZE = 1224;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -708,10 +738,12 @@ namespace Quantum {
     public FP FrictionCoefficient;
     [FieldOffset(1168)]
     public MoveData MoveData;
-    [FieldOffset(1176)]
+    [FieldOffset(1192)]
     public AttackData AttackData;
-    [FieldOffset(1132)]
+    [FieldOffset(1176)]
     public ParryData ParryData;
+    [FieldOffset(1132)]
+    public StunData StunData;
     public FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 84, 6); }
@@ -742,6 +774,7 @@ namespace Quantum {
         hash = hash * 31 + MoveData.GetHashCode();
         hash = hash * 31 + AttackData.GetHashCode();
         hash = hash * 31 + ParryData.GetHashCode();
+        hash = hash * 31 + StunData.GetHashCode();
         return hash;
       }
     }
@@ -762,12 +795,13 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->BeatsMaxInterval);
         serializer.Stream.Serialize(&p->BeatsMinInterval);
         serializer.Stream.Serialize(&p->BeatsTimer);
-        Quantum.ParryData.Serialize(&p->ParryData, serializer);
+        Quantum.StunData.Serialize(&p->StunData, serializer);
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
         FP.Serialize(&p->FrictionCoefficient, serializer);
         Quantum.MoveData.Serialize(&p->MoveData, serializer);
+        Quantum.ParryData.Serialize(&p->ParryData, serializer);
         Quantum.AttackData.Serialize(&p->AttackData, serializer);
     }
   }
@@ -1005,6 +1039,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(SpringJoint), SpringJoint.SIZE);
       typeRegistry.Register(typeof(SpringJoint3D), SpringJoint3D.SIZE);
       typeRegistry.Register(typeof(Quantum.StateID), 4);
+      typeRegistry.Register(typeof(Quantum.StunData), Quantum.StunData.SIZE);
       typeRegistry.Register(typeof(Quantum.SurvivorData), Quantum.SurvivorData.SIZE);
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);

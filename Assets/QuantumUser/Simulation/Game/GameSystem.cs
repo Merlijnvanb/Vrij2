@@ -19,12 +19,14 @@ namespace Quantum
             f.Global->MoveData = gameConfig.MoveData;
             f.Global->AttackData = gameConfig.AttackData;
             f.Global->ParryData = gameConfig.ParryData;
+            f.Global->StunData = gameConfig.StunData;
         }
         
         public override void Update(Frame f)
         {
             RunBeatTimer(f);
             
+            // should probably handle hit checking from here, right now survivor 1 always gets priority I think
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor1);
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor2);
         }

@@ -26,5 +26,12 @@ namespace Quantum
             StateManager.InitializeState(f, entityRef);
             Log.Debug("Survivor: " + sData->SurvivorID + " Current state: " + sData->CurrentState);
         }
+
+        public static void NotifyAttacked(Frame f, EntityRef entityRef)
+        {
+            var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
+            
+            StateManager.ReceivedAttack(f, entityRef);
+        }
     }
 }
