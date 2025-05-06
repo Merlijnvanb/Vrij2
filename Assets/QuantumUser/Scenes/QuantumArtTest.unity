@@ -322,8 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 396e01c09d0dda0429c5e83268aaa679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spotlight: {fileID: 0}
-  HeartMaterial: {fileID: 0}
+  Spotlight: {fileID: 2044357012}
+  HeartMaterial: {fileID: 2100000, guid: abdf246c1de99e549857692cdfeb11b9, type: 2}
   LightIntensity: 0
   HeartIntensity: 0
   LightDuration: 0

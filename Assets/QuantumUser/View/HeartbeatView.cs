@@ -22,7 +22,8 @@ namespace Quantum
 
         private void HandleBeat(EventHeartbeat e)
         {
-            LeanTween.value(Spotlight.gameObject, 0, 1, LightDuration).setOnUpdate((f) => Spotlight.intensity = f).setEaseInCubic();
+            LeanTween.value(Spotlight.gameObject, LightIntensity, 0, LightDuration).setOnUpdate((f) => Spotlight.intensity = f).setEaseInCubic();
+            //LeanTween.value(HeartMaterial.GetFloat());
         }
     }
 }
