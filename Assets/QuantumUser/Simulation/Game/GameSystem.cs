@@ -57,6 +57,7 @@ namespace Quantum
         {
             SurvivorManager.LockAction(f, f.Global->Survivor1);
             SurvivorManager.LockAction(f, f.Global->Survivor2);
+            f.Events.Heartbeat(f.Global->BeatsRampPercentage);
         }
     }
 }
