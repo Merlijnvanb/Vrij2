@@ -19,9 +19,9 @@ MonoBehaviour:
   UserAsset:
     Id:
       Value: 0
-  Scene: QuantumGameScene
-  ScenePath: Assets/QuantumUser/Scenes/QuantumGameScene.unity
-  SceneGuid: c5fb75ceba2c1414fb07ccbd3bb00402
+  Scene: QuantumArtTest
+  ScenePath: Assets/QuantumUser/Scenes/QuantumArtTest.unity
+  SceneGuid: 16d6d4d60d9031b41a5215174e5d90f9
   WorldSize: 256
   BucketsCount: 16
   BucketsSubdivisions: 8
