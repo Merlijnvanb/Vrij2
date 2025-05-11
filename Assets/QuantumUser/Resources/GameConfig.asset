@@ -18,7 +18,7 @@ MonoBehaviour:
       Value: 403324705608927822
   BeatIntervalMaxMinSeconds:
     X:
-      RawValue: 131072
+      RawValue: 327680
     Y:
       RawValue: 32768
   FrictionCoefficient:
