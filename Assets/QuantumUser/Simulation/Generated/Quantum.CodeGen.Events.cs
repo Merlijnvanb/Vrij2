@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 1;
+        eventCount = 2;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -61,8 +61,40 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
+          case EventHeartbeat.ID: result = typeof(EventHeartbeat); return;
           default: break;
         }
+      }
+      public EventHeartbeat Heartbeat(FP BeatRampPercentage) {
+        var ev = _f.Context.AcquireEvent<EventHeartbeat>(EventHeartbeat.ID);
+        ev.BeatRampPercentage = BeatRampPercentage;
+        _f.AddEvent(ev);
+        return ev;
+      }
+    }
+  }
+  public unsafe partial class EventHeartbeat : EventBase {
+    public new const Int32 ID = 1;
+    public FP BeatRampPercentage;
+    protected EventHeartbeat(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventHeartbeat() : 
+        base(1, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 41;
+        hash = hash * 31 + BeatRampPercentage.GetHashCode();
+        return hash;
       }
     }
   }
