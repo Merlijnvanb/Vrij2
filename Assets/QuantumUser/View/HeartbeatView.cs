@@ -16,9 +16,10 @@ namespace Quantum
 
         [Header("Parameters")] 
         public float LightIntensity;
-        public float EmissionTo;
-        public float LightDuration;
-        public float HeartDuration;
+        public float EmissionIntensity;
+        public float FadeInDuration;
+        public float FadeOutDuration;
+        public float OnDuration;
 
         [Header("AUDIO")] 
         public StudioEventEmitter AudioEmitter;
@@ -36,10 +37,30 @@ namespace Quantum
 
         private void HandleBeat(EventHeartbeat e)
         {
-            LeanTween.value(Spotlight.gameObject, LightIntensity, 0, LightDuration).setOnUpdate((f) => Spotlight.intensity = f);
-            LeanTween.value(HeartGO, EmissionTo, emissionBase,HeartDuration).setOnUpdate((f) => heartMaterial.SetFloat("_EmissionMultiplier", f));
+            StartCoroutine(HeartLighting());
+            
+            var light1 = LeanTween.value(Spotlight.gameObject, 0, LightIntensity, FadeInDuration);
+            var heart1 = LeanTween.value(HeartGO, emissionBase, EmissionIntensity,FadeInDuration);
+
+            light1.setOnUpdate((f) => Spotlight.intensity = f);
+            heart1.setOnUpdate((f) => heartMaterial.SetFloat("_EmissionMultiplier", f));
+            light1.setEaseInCubic();
+            heart1.setEaseInCubic();
             
             AudioEmitter.Play();
+        }
+
+        private IEnumerator HeartLighting()
+        {
+            yield return new WaitForSeconds(FadeInDuration + OnDuration);
+            
+            var light2 = LeanTween.value(Spotlight.gameObject, LightIntensity, 0, FadeOutDuration);
+            var heart2 = LeanTween.value(HeartGO, EmissionIntensity, emissionBase,FadeOutDuration);
+
+            light2.setOnUpdate((f) => Spotlight.intensity = f);
+            heart2.setOnUpdate((f) => heartMaterial.SetFloat("_EmissionMultiplier", f));
+            light2.setEaseInCubic();
+            heart2.setEaseInCubic();
         }
     }
 }
