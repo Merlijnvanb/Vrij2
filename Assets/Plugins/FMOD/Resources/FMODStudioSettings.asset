@@ -70,16 +70,16 @@ MonoBehaviour:
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers:
+  - 2c5177b11d81d824dbb064f9ac8527da
+  - 2fea114e74ecf3c4f920e1d5cc1c4c40
+  - b7716510a1f36934c87976f3a81dbf3d
+  - e7a046c753c3c3d4aacc91f6597f310d
   - 0f8eb3f400726694eb47beb1a9f94ce8
   - 46fbfdf3fc43db0458918377fd40293e
-  - 2fea114e74ecf3c4f920e1d5cc1c4c40
-  - e7a046c753c3c3d4aacc91f6597f310d
+  - fd7c55dab0fce234b8c25f6ffca523c1
   - 52eb9df5db46521439908db3a29a1bbb
-  - 2c5177b11d81d824dbb064f9ac8527da
-  - b7716510a1f36934c87976f3a81dbf3d
   - c88d16e5272a4e241b0ef0ac2e53b73d
   - de700ef3f37a49b58a57ae3addf01ad9
-  - fd7c55dab0fce234b8c25f6ffca523c1
   codecChannels:
     Value: []
     HasValue: 0
@@ -242,11 +242,11 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   switchSettingsMigration: 1
-  HasSourceProject: 1
-  HasPlatforms: 1
+  HasSourceProject: 0
+  HasPlatforms: 0
   sourceProjectPath: ../../../Downloads/wetransfer_vrij-2_2025-05-05_2225/Vrij 2/Vrij
     2.fspro
-  sourceBankPath: ../../../Downloads/wetransfer_vrij-2_2025-05-05_2225/Vrij 2/Build
+  sourceBankPath: Assets/Plugins/FMOD/FMODBuild/Desktop
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -267,8 +267,10 @@ MonoBehaviour:
   VirtualChannelSettings: []
   RealChannelSettings: []
   Plugins: []
-  MasterBanks: []
-  Banks: []
+  MasterBanks:
+  - Build/Desktop/Master
+  Banks:
+  - Build/Desktop/Vrij2
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
@@ -284,18 +286,18 @@ MonoBehaviour:
   HideSetupWizard: 0
   LastEventReferenceScanVersion: 131624
   Platforms:
-  - {fileID: 7070713384787352325}
   - {fileID: -6121215074068400254}
+  - {fileID: -3110937638843484080}
+  - {fileID: -1650963000354560876}
+  - {fileID: 750582372822716574}
+  - {fileID: 1605750985274938910}
   - {fileID: 2603223460175751750}
   - {fileID: 2715042188136887349}
-  - {fileID: -1650963000354560876}
-  - {fileID: 1605750985274938910}
-  - {fileID: 4086817855493679041}
-  - {fileID: -3110937638843484080}
-  - {fileID: 750582372822716574}
-  - {fileID: 6146451366169618122}
-  - {fileID: 8198526177944803724}
   - {fileID: 3837071381874118215}
+  - {fileID: 4086817855493679041}
+  - {fileID: 6146451366169618122}
+  - {fileID: 7070713384787352325}
+  - {fileID: 8198526177944803724}
   MigratedPlatforms: 0500000000000000060000000a0000000800000009000000120000000c000000150000000b0000000200000001000000
 --- !u!114 &750582372822716574
 MonoBehaviour:
