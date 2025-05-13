@@ -19,7 +19,7 @@ MonoBehaviour:
     Data3: 246510977
     Data4: 1821500916
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -46,32 +46,14 @@ MonoBehaviour:
     Data3: 332083131
     Data4: -1436570122
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
---- !u!114 &-4181780767757485780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Build/Desktop/Master.bank
-  m_EditorClassIdentifier: 
-  Path: ../../../../Downloads/Vrij 2/Build/Desktop/Master.bank
-  Name: Build/Desktop/Master
-  StudioPath: bank:/Master
-  lastModified: 638827652829682774
-  FileSizes: []
-  Exists: 1
 --- !u!114 &-2475320543497209475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +73,7 @@ MonoBehaviour:
     Data3: 729448832
     Data4: -1947162180
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -118,7 +100,7 @@ MonoBehaviour:
     Data3: -438691452
     Data4: -66293627
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -139,9 +121,9 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 6752808057392175791}
-  - {fileID: -4181780767757485780}
-  - {fileID: 4224578091954415821}
+  - {fileID: 1062039606880016986}
+  - {fileID: 3543434971912467922}
+  - {fileID: 378098401971395758}
   EditorEvents:
   - {fileID: -2475320543497209475}
   - {fileID: 6899018403832078230}
@@ -151,11 +133,49 @@ MonoBehaviour:
   - {fileID: -8958420446629425734}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -4181780767757485780}
+  - {fileID: 3543434971912467922}
   StringsBanks:
-  - {fileID: 6752808057392175791}
-  cacheTime: 638827652841923627
+  - {fileID: 1062039606880016986}
+  cacheTime: 638827671810019065
   cacheVersion: 131624
+--- !u!114 &378098401971395758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Vrij2.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.bank
+  Name: Vrij2
+  StudioPath: bank:/Vrij2
+  lastModified: 638827671810019065
+  FileSizes: []
+  Exists: 1
+--- !u!114 &1062039606880016986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638827670912559474
+  FileSizes:
+  - Name: 
+    Value: 1056
+  Exists: 1
 --- !u!114 &2625579066097888024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +195,7 @@ MonoBehaviour:
     Data3: 744552127
     Data4: 1293805710
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -183,7 +203,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10764
---- !u!114 &4224578091954415821
+--- !u!114 &3543434971912467922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,33 +213,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Build/Desktop/Vrij2.bank
+  m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Path: ../../../../Downloads/Vrij 2/Build/Desktop/Vrij2.bank
-  Name: Build/Desktop/Vrij2
-  StudioPath: bank:/Vrij2
-  lastModified: 638827652841923627
+  Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638827670912539543
   FileSizes: []
-  Exists: 1
---- !u!114 &6752808057392175791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Build/Desktop/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: ../../../../Downloads/Vrij 2/Build/Desktop/Master.strings.bank
-  Name: Build/Desktop/Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638827652829712697
-  FileSizes:
-  - Name: 
-    Value: 1056
   Exists: 1
 --- !u!114 &6899018403832078230
 MonoBehaviour:
@@ -240,10 +240,10 @@ MonoBehaviour:
     Data3: -1643303548
     Data4: 585042574
   Banks:
-  - {fileID: 4224578091954415821}
+  - {fileID: 378098401971395758}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
