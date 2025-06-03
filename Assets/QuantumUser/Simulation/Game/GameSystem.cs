@@ -13,13 +13,13 @@ namespace Quantum
             var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
             f.Global->BeatsMaxInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.X * 60);
             f.Global->BeatsMinInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
-            f.Global->BeatsRampPercentage = 0;
-            f.Global->BeatsTimer = 0;
             f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
             f.Global->MoveData = gameConfig.MoveData;
             f.Global->AttackData = gameConfig.AttackData;
             f.Global->ParryData = gameConfig.ParryData;
             f.Global->StunData = gameConfig.StunData;
+            f.Global->BeatsRampPercentage = 0;
+            f.Global->BeatsTimer = 0;
         }
         
         public override void Update(Frame f)
@@ -29,6 +29,8 @@ namespace Quantum
             // should probably handle hit checking from here, right now survivor 1 always gets priority I think
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor1);
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor2);
+            
+            if (HitReg.AreInRange(f)) HitReg.CheckHit(f);
         }
 
         private void RunBeatTimer(Frame f)
@@ -59,5 +61,7 @@ namespace Quantum
             SurvivorManager.LockAction(f, f.Global->Survivor2);
             f.Events.Heartbeat(f.Global->BeatsRampPercentage);
         }
+
+        
     }
 }

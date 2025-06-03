@@ -136,7 +136,7 @@ MonoBehaviour:
   - {fileID: 3554887936202214058}
   StringsBanks:
   - {fileID: 7821229062323855204}
-  cacheTime: 638827672531418042
+  cacheTime: 638845863172379635
   cacheVersion: 131624
 --- !u!114 &2625579066097888024
 MonoBehaviour:
@@ -180,7 +180,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638827655355418958
+  lastModified: 638845863172079205
   FileSizes: []
   Exists: 1
 --- !u!114 &6899018403832078230
@@ -225,7 +225,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.bank
   Name: Vrij2
   StudioPath: bank:/Vrij2
-  lastModified: 638827672531418042
+  lastModified: 638845863172379635
   FileSizes: []
   Exists: 1
 --- !u!114 &7821229062323855204
@@ -243,7 +243,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638827655355508998
+  lastModified: 638845863172194434
   FileSizes:
   - Name: 
     Value: 1056

@@ -5,8 +5,6 @@ global
     
     int BeatsMaxInterval;
     int BeatsMinInterval;
-    FP BeatsRampPercentage;
-    int BeatsTimer;
     
     FP FrictionCoefficient;
     
@@ -14,6 +12,9 @@ global
     AttackData AttackData;
     ParryData ParryData;
     StunData StunData;
+    
+    FP BeatsRampPercentage;
+    int BeatsTimer;
 }
 
 [Serializable]

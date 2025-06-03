@@ -730,10 +730,6 @@ namespace Quantum {
     public Int32 BeatsMaxInterval;
     [FieldOffset(1124)]
     public Int32 BeatsMinInterval;
-    [FieldOffset(1152)]
-    public FP BeatsRampPercentage;
-    [FieldOffset(1128)]
-    public Int32 BeatsTimer;
     [FieldOffset(1160)]
     public FP FrictionCoefficient;
     [FieldOffset(1168)]
@@ -744,6 +740,10 @@ namespace Quantum {
     public ParryData ParryData;
     [FieldOffset(1132)]
     public StunData StunData;
+    [FieldOffset(1152)]
+    public FP BeatsRampPercentage;
+    [FieldOffset(1128)]
+    public Int32 BeatsTimer;
     public FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 84, 6); }
@@ -768,13 +768,13 @@ namespace Quantum {
         hash = hash * 31 + Survivor2.GetHashCode();
         hash = hash * 31 + BeatsMaxInterval.GetHashCode();
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
-        hash = hash * 31 + BeatsRampPercentage.GetHashCode();
-        hash = hash * 31 + BeatsTimer.GetHashCode();
         hash = hash * 31 + FrictionCoefficient.GetHashCode();
         hash = hash * 31 + MoveData.GetHashCode();
         hash = hash * 31 + AttackData.GetHashCode();
         hash = hash * 31 + ParryData.GetHashCode();
         hash = hash * 31 + StunData.GetHashCode();
+        hash = hash * 31 + BeatsRampPercentage.GetHashCode();
+        hash = hash * 31 + BeatsTimer.GetHashCode();
         return hash;
       }
     }
