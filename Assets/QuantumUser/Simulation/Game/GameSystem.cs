@@ -14,6 +14,8 @@ namespace Quantum
             f.Global->BeatsMaxInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.X * 60);
             f.Global->BeatsMinInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
             f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
+            f.Global->ArenaRadius = gameConfig.ArenaRadius;
+            f.Global->CenterRadius = gameConfig.CenterRadius;
             f.Global->MoveData = gameConfig.MoveData;
             f.Global->AttackData = gameConfig.AttackData;
             f.Global->ParryData = gameConfig.ParryData;
@@ -29,8 +31,21 @@ namespace Quantum
             // should probably handle hit checking from here, right now survivor 1 always gets priority I think
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor1);
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor2);
+
+            if (HitReg.AreInRange(f))
+            {
+                if (HitReg.CheckHit(f)) RampBeatIntervalPercentage(f, 20);
+            }
             
-            if (HitReg.AreInRange(f)) HitReg.CheckHit(f);
+            CollisionHandler.HandleBounds(f);
+        }
+
+        private void RampBeatIntervalPercentage(Frame f, int amount)
+        {
+            var currentPercent = f.Global->BeatsRampPercentage;
+            var newPercent = currentPercent + amount;
+            
+            f.Global->BeatsRampPercentage = FPMath.Clamp(newPercent, 0, 100);
         }
 
         private void RunBeatTimer(Frame f)
@@ -61,7 +76,5 @@ namespace Quantum
             SurvivorManager.LockAction(f, f.Global->Survivor2);
             f.Events.Heartbeat(f.Global->BeatsRampPercentage);
         }
-
-        
     }
 }

@@ -17,19 +17,29 @@ namespace Quantum
             return diff.Magnitude < f.Global->AttackData.Range;
         }
 
-        public static void CheckHit(Frame f)
+        public static bool CheckHit(Frame f)
         {
             var survivor1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
             var survivor2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
 
             var attackActive1 = survivor1->CurrentState == StateID.ATTACK && AttackState.IsActive(f, f.Global->Survivor1);
             var attackActive2 = survivor2->CurrentState == StateID.ATTACK && AttackState.IsActive(f, f.Global->Survivor2);
-            
-            if (attackActive1)
+
+            if (attackActive1 && !survivor1->AttackHasHit)
+            {
+                survivor1->AttackHasHit = true;
                 SurvivorManager.NotifyAttacked(f, f.Global->Survivor2);
-            
-            if (attackActive2)
+                return true;
+            }
+
+            if (attackActive2 && !survivor2->AttackHasHit)
+            {
+                survivor2->AttackHasHit = true;
                 SurvivorManager.NotifyAttacked(f, f.Global->Survivor1);
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -22,10 +22,14 @@ MonoBehaviour:
     Y:
       RawValue: 32768
   FrictionCoefficient:
-    RawValue: 6554
+    RawValue: 3277
+  ArenaRadius:
+    RawValue: 491520
+  CenterRadius:
+    RawValue: 131072
   MoveData:
     MoveVelocity:
-      RawValue: 19661
+      RawValue: 6554
   AttackData:
     TotalFrames: 60
     StartupFrames: 20
@@ -33,7 +37,7 @@ MonoBehaviour:
     Range:
       RawValue: 98304
     Knockback:
-      RawValue: 13107
+      RawValue: 6554
   ParryData:
     TotalFrames: 60
     StartupFrames: 15

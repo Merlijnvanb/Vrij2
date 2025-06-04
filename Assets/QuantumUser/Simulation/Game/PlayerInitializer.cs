@@ -20,6 +20,7 @@ namespace Quantum
                 sData->CurrentState = StateID.IDLE;
                 sData->StateFrame = 0;
                 sData->IsStateDone = false;
+                sData->AttackHasHit = false;
                 
                 if (i == 1)
                     f.Global->Survivor1 = survivorEntity;

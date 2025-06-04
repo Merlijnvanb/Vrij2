@@ -695,7 +695,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1224;
+    public const Int32 SIZE = 1240;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -730,17 +730,21 @@ namespace Quantum {
     public Int32 BeatsMaxInterval;
     [FieldOffset(1124)]
     public Int32 BeatsMinInterval;
-    [FieldOffset(1160)]
-    public FP FrictionCoefficient;
-    [FieldOffset(1168)]
-    public MoveData MoveData;
-    [FieldOffset(1192)]
-    public AttackData AttackData;
     [FieldOffset(1176)]
+    public FP FrictionCoefficient;
+    [FieldOffset(1152)]
+    public FP ArenaRadius;
+    [FieldOffset(1168)]
+    public FP CenterRadius;
+    [FieldOffset(1184)]
+    public MoveData MoveData;
+    [FieldOffset(1208)]
+    public AttackData AttackData;
+    [FieldOffset(1192)]
     public ParryData ParryData;
     [FieldOffset(1132)]
     public StunData StunData;
-    [FieldOffset(1152)]
+    [FieldOffset(1160)]
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
@@ -769,6 +773,8 @@ namespace Quantum {
         hash = hash * 31 + BeatsMaxInterval.GetHashCode();
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
         hash = hash * 31 + FrictionCoefficient.GetHashCode();
+        hash = hash * 31 + ArenaRadius.GetHashCode();
+        hash = hash * 31 + CenterRadius.GetHashCode();
         hash = hash * 31 + MoveData.GetHashCode();
         hash = hash * 31 + AttackData.GetHashCode();
         hash = hash * 31 + ParryData.GetHashCode();
@@ -798,7 +804,9 @@ namespace Quantum {
         Quantum.StunData.Serialize(&p->StunData, serializer);
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
+        FP.Serialize(&p->ArenaRadius, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
+        FP.Serialize(&p->CenterRadius, serializer);
         FP.Serialize(&p->FrictionCoefficient, serializer);
         Quantum.MoveData.Serialize(&p->MoveData, serializer);
         Quantum.ParryData.Serialize(&p->ParryData, serializer);
@@ -825,22 +833,24 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SurvivorData : Quantum.IComponent {
-    public const Int32 SIZE = 64;
+    public const Int32 SIZE = 72;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(4)]
     public Int32 SurvivorID;
-    [FieldOffset(32)]
+    [FieldOffset(40)]
     public FPVector2 Position;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     public FPVector2 Facing;
-    [FieldOffset(48)]
+    [FieldOffset(56)]
     public FPVector2 Velocity;
-    [FieldOffset(12)]
+    [FieldOffset(16)]
     public StateID CurrentState;
     [FieldOffset(0)]
     public Int32 StateFrame;
-    [FieldOffset(8)]
+    [FieldOffset(12)]
     public QBoolean IsStateDone;
+    [FieldOffset(8)]
+    public QBoolean AttackHasHit;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17389;
@@ -851,6 +861,7 @@ namespace Quantum {
         hash = hash * 31 + (Int32)CurrentState;
         hash = hash * 31 + StateFrame.GetHashCode();
         hash = hash * 31 + IsStateDone.GetHashCode();
+        hash = hash * 31 + AttackHasHit.GetHashCode();
         return hash;
       }
     }
@@ -858,6 +869,7 @@ namespace Quantum {
         var p = (SurvivorData*)ptr;
         serializer.Stream.Serialize(&p->StateFrame);
         serializer.Stream.Serialize(&p->SurvivorID);
+        QBoolean.Serialize(&p->AttackHasHit, serializer);
         QBoolean.Serialize(&p->IsStateDone, serializer);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
         FPVector2.Serialize(&p->Facing, serializer);

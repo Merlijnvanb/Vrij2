@@ -148,6 +148,7 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum32<StateID> CurrentState;
     public Int32 StateFrame;
     public QBoolean IsStateDone;
+    public QBoolean AttackHasHit;
     partial void MaterializeUser(Frame frame, ref Quantum.SurvivorData result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.SurvivorData component = default;
@@ -162,6 +163,7 @@ namespace Quantum.Prototypes {
         result.CurrentState = this.CurrentState;
         result.StateFrame = this.StateFrame;
         result.IsStateDone = this.IsStateDone;
+        result.AttackHasHit = this.AttackHasHit;
         MaterializeUser(frame, ref result, in context);
     }
   }

@@ -6,6 +6,8 @@ namespace Quantum
     {
         public FPVector2 BeatIntervalMaxMinSeconds;
         public FP FrictionCoefficient;
+        public FP ArenaRadius;
+        public FP CenterRadius;
         
         public MoveData MoveData;
         public AttackData AttackData;

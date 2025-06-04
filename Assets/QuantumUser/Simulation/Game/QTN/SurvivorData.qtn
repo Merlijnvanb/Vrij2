@@ -9,4 +9,5 @@ component SurvivorData
     StateID CurrentState;
     int StateFrame;
     bool IsStateDone;
+    bool AttackHasHit;
 }

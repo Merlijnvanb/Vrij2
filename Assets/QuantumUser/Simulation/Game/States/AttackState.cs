@@ -17,6 +17,8 @@ namespace Quantum
             
             var facing = (otherSData->Position - sData->Position).Normalized;
             sData->Facing = facing;
+
+            sData->AttackHasHit = false;
         }
         
         public static void Update(Frame f, EntityRef entityRef)

@@ -309,9 +309,9 @@ MonoBehaviour:
   HeartGO: {fileID: 19331023}
   LightIntensity: 300
   EmissionIntensity: 5
-  FadeInDuration: 0.2
-  FadeOutDuration: 0.9
-  OnDuration: 0.4
+  FadeInDuration: 0.05
+  OnDuration: 0.5
+  FallOffFactor: 0.5
   AudioEmitter: {fileID: 1111635121}
 --- !u!4 &100248866
 Transform:
@@ -643,7 +643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 647d598ac80752c42853eef327a1d2ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.43767908
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 647d598ac80752c42853eef327a1d2ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -651,7 +651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 647d598ac80752c42853eef327a1d2ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.29841518
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 647d598ac80752c42853eef327a1d2ad, type: 3}
       propertyPath: m_LocalRotation.w
