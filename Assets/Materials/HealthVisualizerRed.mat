@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lit2D_Shader Graphs_Material
-  m_Shader: {fileID: -6465566751694194690, guid: 08f93e918ad755a44bb711c611a02e76, type: 3}
+  m_Name: HealthVisualizerRed
+  m_Shader: {fileID: -6465566751694194690, guid: 0e9928922e40f5c499db7a1038861ed6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2449
+  m_CustomRenderQueue: 2450
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -42,9 +42,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 30
+    - _HealthNormalized: 1
     - _QueueControl: 0
-    - _QueueOffset: -1
-    m_Colors: []
+    - _QueueOffset: 0
+    m_Colors:
+    - _EmissionColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3763319673960469653

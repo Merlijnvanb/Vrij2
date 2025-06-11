@@ -29,6 +29,7 @@ namespace Quantum
         public Transform Body;
         public CinemachineTargetGroup TargetGroup;
         public SpriteRenderer SpriteRenderer;
+        public SpriteRenderer ChildSpriteRenderer;
         public SurvivorAnimations Animations;
 
         private bool groupAssigned;
@@ -77,13 +78,19 @@ namespace Quantum
             
             var pos = survivorData.Position.ToUnityVector2();
             var facing = survivorData.Facing.ToUnityVector2();
-            var facing3D = facing.x > 0 ? new Vector3(1, 0, 0) : new Vector3(-1, 0, 0);
+            var facingLeft = facing.x < 0;
             
             Body.position = new Vector3(pos.x, Body.position.y, pos.y);
-            Body.rotation = Quaternion.LookRotation(facing3D, Vector3.up);
             
+            SpriteRenderer.flipX = facingLeft;
+            ChildSpriteRenderer.flipX = facingLeft;
+
             if (currentSprite != null)
+            {
                 SpriteRenderer.sprite = currentSprite;
+                ChildSpriteRenderer.sprite = currentSprite;
+            }
+            
             
             if (!groupAssigned)
                 return;

@@ -8,9 +8,15 @@ namespace Quantum
 
     public class HeartbeatView : QuantumEntityViewComponent<IQuantumViewContext>
     {
+        [System.Serializable]
+        public struct LightData
+        {
+            public Light Light;
+            public float IntensityCeil;
+        }
         
         [Header("VISUALS")]
-        public Light[] Lights;
+        public LightData[] Lights;
         //public GameObject HeartGO;
         
 
@@ -33,6 +39,11 @@ namespace Quantum
         void Start()
         {
             QuantumEvent.Subscribe<EventHeartbeat>(listener: this, handler: HandleBeat);
+
+            for (int i = 0; i < Lights.Length; ++i)
+            {
+                Lights[i].IntensityCeil = Lights[i].Light.intensity;
+            }
             
             //heartMaterial = HeartGO.GetComponent<Renderer>().material;
             //emissionBase = heartMaterial.GetFloat("_EmissionMultiplier");
@@ -45,14 +56,15 @@ namespace Quantum
                 factor -= FallOffFactor * Time.deltaTime;
             else
                 factor = 0;
-            
-            var lightValue = Mathf.Lerp(lightBase, LightIntensity, factor);
-            //var emissionValue = Mathf.Lerp(emissionBase, EmissionIntensity, factor);
 
-            foreach (var light in Lights)
+            foreach (var lightData in Lights)
             {
-                light.intensity = lightValue;
+                var lightValue = Mathf.Lerp(lightBase, lightData.IntensityCeil, factor);
+                
+                lightData.Light.intensity = lightValue;
             }
+            
+            //var emissionValue = Mathf.Lerp(emissionBase, EmissionIntensity, factor);
             //heartMaterial.SetFloat("_EmissionMultiplier", emissionValue);
         }
 
