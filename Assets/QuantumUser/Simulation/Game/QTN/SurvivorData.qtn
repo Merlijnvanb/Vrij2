@@ -6,6 +6,10 @@ component SurvivorData
     FPVector2 Facing;
     FPVector2 Velocity;
     
+    FP Health;
+    bool Break;
+    bool Dead;
+    
     StateID CurrentState;
     int StateFrame;
     bool IsStateDone;

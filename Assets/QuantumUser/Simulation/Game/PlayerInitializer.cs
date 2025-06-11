@@ -12,11 +12,15 @@ namespace Quantum
             {
                 var survivorEntity = f.Create(f.FindAsset(f.RuntimeConfig.SurvivorPrototype));
                 var sData = f.Unsafe.GetPointer<SurvivorData>(survivorEntity);
+                var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
 
                 sData->SurvivorID = i;
                 sData->Position = i == 1 ? new FPVector2(-3, 0) : new FPVector2(3, 0);
                 sData->Facing = i == 1 ? new FPVector2(1, 0) : new FPVector2(-1, 0);
                 sData->Velocity = new FPVector2(0, 0);
+                sData->Health = gameConfig.BaseHealth;
+                sData->Break = false;
+                sData->Dead = false;
                 sData->CurrentState = StateID.IDLE;
                 sData->StateFrame = 0;
                 sData->IsStateDone = false;

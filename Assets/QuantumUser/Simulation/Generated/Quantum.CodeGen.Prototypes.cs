@@ -57,6 +57,7 @@ namespace Quantum.Prototypes {
     public Int32 ActiveFrames;
     public FP Range;
     public FP Knockback;
+    public FP Damage;
     partial void MaterializeUser(Frame frame, ref Quantum.AttackData result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.AttackData result, in PrototypeMaterializationContext context = default) {
         result.TotalFrames = this.TotalFrames;
@@ -64,6 +65,7 @@ namespace Quantum.Prototypes {
         result.ActiveFrames = this.ActiveFrames;
         result.Range = this.Range;
         result.Knockback = this.Knockback;
+        result.Damage = this.Damage;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -145,6 +147,9 @@ namespace Quantum.Prototypes {
     public FPVector2 Position;
     public FPVector2 Facing;
     public FPVector2 Velocity;
+    public FP Health;
+    public QBoolean Break;
+    public QBoolean Dead;
     public Quantum.QEnum32<StateID> CurrentState;
     public Int32 StateFrame;
     public QBoolean IsStateDone;
@@ -160,6 +165,9 @@ namespace Quantum.Prototypes {
         result.Position = this.Position;
         result.Facing = this.Facing;
         result.Velocity = this.Velocity;
+        result.Health = this.Health;
+        result.Break = this.Break;
+        result.Dead = this.Dead;
         result.CurrentState = this.CurrentState;
         result.StateFrame = this.StateFrame;
         result.IsStateDone = this.IsStateDone;

@@ -3,7 +3,7 @@ enum StateID
     IDLE,
     MOVE,
     ATTACK,
-    BLOCK,
     PARRY,
-    STUN
+    STUN,
+    DEATH
 }

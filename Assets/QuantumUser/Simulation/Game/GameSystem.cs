@@ -11,11 +11,18 @@ namespace Quantum
         public override void OnInit(Frame f)
         {
             var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
-            f.Global->BeatsMaxInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.X * 60);
-            f.Global->BeatsMinInterval = (int)(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
+            f.Global->S1Score = 0;
+            f.Global->S2Score = 0;
+            f.Global->BeatsMaxInterval = FPMath.FloorToInt(gameConfig.BeatIntervalMaxMinSeconds.X * 60);
+            f.Global->BeatsMinInterval = FPMath.FloorToInt(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
+            f.Global->PreRoundTimer = FPMath.FloorToInt(gameConfig.PreRoundTimerSeconds * 60);
+            f.Global->MaxIntensityTimer = FPMath.FloorToInt(gameConfig.MaxIntensityTimerSeconds * 60);
+            f.Global->PostRoundTimer = FPMath.FloorToInt(gameConfig.PostRoundTimerSeconds * 60);
+            f.Global->RoundDone = false;
             f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
             f.Global->ArenaRadius = gameConfig.ArenaRadius;
             f.Global->CenterRadius = gameConfig.CenterRadius;
+            f.Global->BaseHealth = gameConfig.BaseHealth;
             f.Global->MoveData = gameConfig.MoveData;
             f.Global->AttackData = gameConfig.AttackData;
             f.Global->ParryData = gameConfig.ParryData;
@@ -26,18 +33,93 @@ namespace Quantum
         
         public override void Update(Frame f)
         {
-            RunBeatTimer(f);
+            if (!f.Global->RoundDone) CheckDead(f);
             
-            // should probably handle hit checking from here, right now survivor 1 always gets priority I think
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor1);
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor2);
+            
+            if (f.Global->PreRoundTimer > 0)
+            {
+                f.Global->PreRoundTimer--;
+                return;
+            }
+
+            if (f.Global->RoundDone && f.Global->PostRoundTimer > 0)
+            {
+                f.Global->PostRoundTimer--;
+                return;
+            }
+            else if (f.Global->RoundDone && f.Global->PostRoundTimer <= 0)
+            {
+                ResetRound(f);
+            }
+            
+            RunBeatTimer(f);
 
             if (HitReg.AreInRange(f))
             {
-                if (HitReg.CheckHit(f)) RampBeatIntervalPercentage(f, 20);
+                if (HitReg.CheckHit(f))
+                {
+                    RampBeatIntervalPercentage(f, 20);
+                }
             }
             
             CollisionHandler.HandleBounds(f);
+
+            if (f.Global->BeatsRampPercentage > 99)
+            {
+                f.Global->MaxIntensityTimer--;
+
+                if (f.Global->MaxIntensityTimer <= 0)
+                {
+                    CheckBreak(f);
+                }
+            }
+        }
+
+        private void CheckBreak(Frame f)
+        {
+            var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
+            var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
+
+            var isBreak1 = sData1->Break;
+            var isBreak2 = sData2->Break;
+
+            if (isBreak1)
+            {
+                sData1->Dead = true;
+            }
+
+            if (isBreak2)
+            {
+                sData2->Dead = true;
+            }
+        }
+
+        private void CheckDead(Frame f)
+        {
+            var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
+            var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
+
+            var isDead1 = sData1->Dead;
+            var isDead2 = sData2->Dead;
+
+            if (isDead1) f.Global->S2Score++;
+            if (isDead2) f.Global->S1Score++;
+
+            f.Global->RoundDone = isDead1 || isDead2;
+        }
+
+        private void ResetRound(Frame f)
+        {
+            var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
+            f.Global->PreRoundTimer = FPMath.FloorToInt(gameConfig.PreRoundTimerSeconds * 60);
+            f.Global->MaxIntensityTimer = FPMath.FloorToInt(gameConfig.MaxIntensityTimerSeconds * 60);
+            f.Global->PostRoundTimer = FPMath.FloorToInt(gameConfig.PostRoundTimerSeconds * 60);
+            f.Global->RoundDone = false;
+            
+            SurvivorManager.RoundReset(f, f.Global->Survivor1);
+            SurvivorManager.RoundReset(f, f.Global->Survivor2);
         }
 
         private void RampBeatIntervalPercentage(Frame f, int amount)

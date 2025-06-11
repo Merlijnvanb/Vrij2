@@ -53,9 +53,9 @@ namespace Quantum {
     IDLE,
     MOVE,
     ATTACK,
-    BLOCK,
     PARRY,
     STUN,
+    DEATH,
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
@@ -527,7 +527,7 @@ namespace Quantum {
   [StructLayout(LayoutKind.Explicit)]
   [Serializable()]
   public unsafe partial struct AttackData {
-    public const Int32 SIZE = 32;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public Int32 TotalFrames;
@@ -535,10 +535,12 @@ namespace Quantum {
     public Int32 StartupFrames;
     [FieldOffset(0)]
     public Int32 ActiveFrames;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     public FP Range;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     public FP Knockback;
+    [FieldOffset(16)]
+    public FP Damage;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 8563;
@@ -547,6 +549,7 @@ namespace Quantum {
         hash = hash * 31 + ActiveFrames.GetHashCode();
         hash = hash * 31 + Range.GetHashCode();
         hash = hash * 31 + Knockback.GetHashCode();
+        hash = hash * 31 + Damage.GetHashCode();
         return hash;
       }
     }
@@ -555,6 +558,7 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->ActiveFrames);
         serializer.Stream.Serialize(&p->StartupFrames);
         serializer.Stream.Serialize(&p->TotalFrames);
+        FP.Serialize(&p->Damage, serializer);
         FP.Serialize(&p->Knockback, serializer);
         FP.Serialize(&p->Range, serializer);
     }
@@ -695,7 +699,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1240;
+    public const Int32 SIZE = 1280;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -722,29 +726,43 @@ namespace Quantum {
     private fixed Byte _input_[504];
     [FieldOffset(1112)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(1136)]
+    [FieldOffset(1160)]
     public EntityRef Survivor1;
-    [FieldOffset(1144)]
+    [FieldOffset(1168)]
     public EntityRef Survivor2;
+    [FieldOffset(1144)]
+    public Int32 S1Score;
+    [FieldOffset(1148)]
+    public Int32 S2Score;
     [FieldOffset(1120)]
     public Int32 BeatsMaxInterval;
     [FieldOffset(1124)]
     public Int32 BeatsMinInterval;
-    [FieldOffset(1176)]
-    public FP FrictionCoefficient;
+    [FieldOffset(1140)]
+    public Int32 PreRoundTimer;
+    [FieldOffset(1132)]
+    public Int32 MaxIntensityTimer;
+    [FieldOffset(1136)]
+    public Int32 PostRoundTimer;
     [FieldOffset(1152)]
+    public QBoolean RoundDone;
+    [FieldOffset(1208)]
+    public FP FrictionCoefficient;
+    [FieldOffset(1176)]
     public FP ArenaRadius;
-    [FieldOffset(1168)]
+    [FieldOffset(1200)]
     public FP CenterRadius;
     [FieldOffset(1184)]
+    public FP BaseHealth;
+    [FieldOffset(1216)]
     public MoveData MoveData;
-    [FieldOffset(1208)]
+    [FieldOffset(1240)]
     public AttackData AttackData;
-    [FieldOffset(1192)]
+    [FieldOffset(1224)]
     public ParryData ParryData;
-    [FieldOffset(1132)]
+    [FieldOffset(1156)]
     public StunData StunData;
-    [FieldOffset(1160)]
+    [FieldOffset(1192)]
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
@@ -770,11 +788,18 @@ namespace Quantum {
         hash = hash * 31 + PlayerLastConnectionState.GetHashCode();
         hash = hash * 31 + Survivor1.GetHashCode();
         hash = hash * 31 + Survivor2.GetHashCode();
+        hash = hash * 31 + S1Score.GetHashCode();
+        hash = hash * 31 + S2Score.GetHashCode();
         hash = hash * 31 + BeatsMaxInterval.GetHashCode();
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
+        hash = hash * 31 + PreRoundTimer.GetHashCode();
+        hash = hash * 31 + MaxIntensityTimer.GetHashCode();
+        hash = hash * 31 + PostRoundTimer.GetHashCode();
+        hash = hash * 31 + RoundDone.GetHashCode();
         hash = hash * 31 + FrictionCoefficient.GetHashCode();
         hash = hash * 31 + ArenaRadius.GetHashCode();
         hash = hash * 31 + CenterRadius.GetHashCode();
+        hash = hash * 31 + BaseHealth.GetHashCode();
         hash = hash * 31 + MoveData.GetHashCode();
         hash = hash * 31 + AttackData.GetHashCode();
         hash = hash * 31 + ParryData.GetHashCode();
@@ -801,10 +826,17 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->BeatsMaxInterval);
         serializer.Stream.Serialize(&p->BeatsMinInterval);
         serializer.Stream.Serialize(&p->BeatsTimer);
+        serializer.Stream.Serialize(&p->MaxIntensityTimer);
+        serializer.Stream.Serialize(&p->PostRoundTimer);
+        serializer.Stream.Serialize(&p->PreRoundTimer);
+        serializer.Stream.Serialize(&p->S1Score);
+        serializer.Stream.Serialize(&p->S2Score);
+        QBoolean.Serialize(&p->RoundDone, serializer);
         Quantum.StunData.Serialize(&p->StunData, serializer);
         EntityRef.Serialize(&p->Survivor1, serializer);
         EntityRef.Serialize(&p->Survivor2, serializer);
         FP.Serialize(&p->ArenaRadius, serializer);
+        FP.Serialize(&p->BaseHealth, serializer);
         FP.Serialize(&p->BeatsRampPercentage, serializer);
         FP.Serialize(&p->CenterRadius, serializer);
         FP.Serialize(&p->FrictionCoefficient, serializer);
@@ -833,21 +865,27 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct SurvivorData : Quantum.IComponent {
-    public const Int32 SIZE = 72;
+    public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(4)]
     public Int32 SurvivorID;
-    [FieldOffset(40)]
-    public FPVector2 Position;
-    [FieldOffset(24)]
-    public FPVector2 Facing;
     [FieldOffset(56)]
+    public FPVector2 Position;
+    [FieldOffset(40)]
+    public FPVector2 Facing;
+    [FieldOffset(72)]
     public FPVector2 Velocity;
+    [FieldOffset(32)]
+    public FP Health;
+    [FieldOffset(12)]
+    public QBoolean Break;
     [FieldOffset(16)]
+    public QBoolean Dead;
+    [FieldOffset(24)]
     public StateID CurrentState;
     [FieldOffset(0)]
     public Int32 StateFrame;
-    [FieldOffset(12)]
+    [FieldOffset(20)]
     public QBoolean IsStateDone;
     [FieldOffset(8)]
     public QBoolean AttackHasHit;
@@ -858,6 +896,9 @@ namespace Quantum {
         hash = hash * 31 + Position.GetHashCode();
         hash = hash * 31 + Facing.GetHashCode();
         hash = hash * 31 + Velocity.GetHashCode();
+        hash = hash * 31 + Health.GetHashCode();
+        hash = hash * 31 + Break.GetHashCode();
+        hash = hash * 31 + Dead.GetHashCode();
         hash = hash * 31 + (Int32)CurrentState;
         hash = hash * 31 + StateFrame.GetHashCode();
         hash = hash * 31 + IsStateDone.GetHashCode();
@@ -870,8 +911,11 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->StateFrame);
         serializer.Stream.Serialize(&p->SurvivorID);
         QBoolean.Serialize(&p->AttackHasHit, serializer);
+        QBoolean.Serialize(&p->Break, serializer);
+        QBoolean.Serialize(&p->Dead, serializer);
         QBoolean.Serialize(&p->IsStateDone, serializer);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
+        FP.Serialize(&p->Health, serializer);
         FPVector2.Serialize(&p->Facing, serializer);
         FPVector2.Serialize(&p->Position, serializer);
         FPVector2.Serialize(&p->Velocity, serializer);

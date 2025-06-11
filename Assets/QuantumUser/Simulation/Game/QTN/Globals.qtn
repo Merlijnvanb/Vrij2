@@ -3,12 +3,23 @@ global
     entity_ref Survivor1;
     entity_ref Survivor2;
     
+    int S1Score;
+    int S2Score;
+    
     int BeatsMaxInterval;
     int BeatsMinInterval;
+    
+    int PreRoundTimer;
+    int MaxIntensityTimer;
+    int PostRoundTimer;
+    
+    bool RoundDone;
     
     FP FrictionCoefficient;
     FP ArenaRadius;
     FP CenterRadius;
+    
+    FP BaseHealth;
     
     MoveData MoveData;
     AttackData AttackData;
@@ -34,6 +45,7 @@ struct AttackData
     
     FP Range;
     FP Knockback;
+    FP Damage;
 }
 
 [Serializable]

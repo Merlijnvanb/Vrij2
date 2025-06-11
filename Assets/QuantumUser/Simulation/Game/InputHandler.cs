@@ -29,8 +29,7 @@ namespace Quantum
                 return StateID.IDLE;
          
             var currentInput = f.GetPlayerInput(playerLink->PlayerRef);
-
-            if (currentInput->Block) return StateID.BLOCK;
+            
             if (currentInput->Attack) return StateID.ATTACK;
             if (currentInput->Parry) return StateID.PARRY;
             return StateID.IDLE;

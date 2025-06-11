@@ -10,9 +10,12 @@ namespace Quantum
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
 
+            if (sData->CurrentState == StateID.DEATH)
+                return;
+
             if (sData->IsStateDone)
             {
-                sData->CurrentState = StateID.IDLE;
+                sData->CurrentState = sData->Dead ? StateID.DEATH : StateID.IDLE;
             }
 
             switch (sData->CurrentState)
@@ -63,23 +66,13 @@ namespace Quantum
             }
         }
 
-        public static void ReceivedAttack(Frame f, EntityRef entityRef)
+        public static void SetState(Frame f, EntityRef entity, StateID state, int startFrame = 0)
         {
-            var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
-
-            if (sData->CurrentState == StateID.PARRY && ParryState.IsActive(f, entityRef))
-            {
-                var otherSurvivor = sData->SurvivorID == 1 ? f.Global->Survivor2 : f.Global->Survivor1;
-                SurvivorManager.NotifyAttacked(f, otherSurvivor);
-                ParryState.OnSuccess(f, entityRef);
-                return;
-            }
+            var sData = f.Unsafe.GetPointer<SurvivorData>(entity);
             
-            sData->CurrentState = StateID.STUN;
-            sData->StateFrame = 0;
+            sData->CurrentState = state;
+            sData->StateFrame = startFrame;
             sData->IsStateDone = false;
-            
-            StunState.Initialize(f, entityRef);
         }
 
         private static StateID WhichState(Frame f, EntityRef entityRef)

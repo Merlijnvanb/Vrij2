@@ -21,12 +21,20 @@ MonoBehaviour:
       RawValue: 327680
     Y:
       RawValue: 32768
+  PreRoundTimerSeconds:
+    RawValue: 196608
+  MaxIntensityTimerSeconds:
+    RawValue: 327680
+  PostRoundTimerSeconds:
+    RawValue: 655360
   FrictionCoefficient:
     RawValue: 3277
   ArenaRadius:
     RawValue: 491520
   CenterRadius:
     RawValue: 131072
+  BaseHealth:
+    RawValue: 6553600
   MoveData:
     MoveVelocity:
       RawValue: 6554
@@ -38,6 +46,8 @@ MonoBehaviour:
       RawValue: 98304
     Knockback:
       RawValue: 6554
+    Damage:
+      RawValue: 3276800
   ParryData:
     TotalFrames: 60
     StartupFrames: 15
