@@ -143,6 +143,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.SurvivorData))]
   public unsafe partial class SurvivorDataPrototype : ComponentPrototype<Quantum.SurvivorData> {
+    public QBoolean PlayerConnected;
     public Int32 SurvivorID;
     public FPVector2 Position;
     public FPVector2 Facing;
@@ -161,6 +162,7 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.SurvivorData result, in PrototypeMaterializationContext context = default) {
+        result.PlayerConnected = this.PlayerConnected;
         result.SurvivorID = this.SurvivorID;
         result.Position = this.Position;
         result.Facing = this.Facing;

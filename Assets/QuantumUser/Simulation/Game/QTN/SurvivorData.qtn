@@ -1,5 +1,6 @@
 component SurvivorData
 {
+    bool PlayerConnected;
     int SurvivorID;
     
     FPVector2 Position;

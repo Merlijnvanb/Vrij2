@@ -14,6 +14,7 @@ namespace Quantum
                 var sData = f.Unsafe.GetPointer<SurvivorData>(survivorEntity);
                 var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
 
+                sData->PlayerConnected = false;
                 sData->SurvivorID = i;
                 sData->Position = i == 1 ? new FPVector2(-3, 0) : new FPVector2(3, 0);
                 sData->Facing = i == 1 ? new FPVector2(1, 0) : new FPVector2(-1, 0);
@@ -40,6 +41,8 @@ namespace Quantum
             
             var survivorEntity = player._index == 1 ? f.Global->Survivor1 : f.Global->Survivor2;
             var playerLink = f.Unsafe.GetPointer<PlayerLink>(survivorEntity);
+            var sData = f.Unsafe.GetPointer<SurvivorData>(survivorEntity);
+            sData->PlayerConnected = true;
             
             playerLink->PlayerRef = player;
         }

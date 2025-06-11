@@ -26,9 +26,9 @@ Transform:
   m_GameObject: {fileID: 2018335272476687209}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0.0001}
-  m_LocalScale: {x: 1.1354154, y: 1.0556272, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: -0.0077, y: 0, z: 0.0001}
+  m_LocalScale: {x: 1.3642488, y: 1.155173, z: 1.0943}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 84085352235015963}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -474,7 +474,7 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 016aafb50c92f594ca3dea04f79ba09b, type: 3}
       - {fileID: 21300000, guid: 7b9f36951fb64334c8fe67c4b3af9d56, type: 3}
       Loop: 1
-      SingleSpriteDuration: 0.1
+      SingleSpriteDuration: 0.2
     Attack:
       Sprites:
       - {fileID: 21300000, guid: 90ca8dfc8939c0845bfc3411af4753d5, type: 3}
@@ -508,6 +508,8 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 82c627ce15a7ce44bab018c27e6baebb, type: 3}
       Loop: 0
       SingleSpriteDuration: 0.15
+  Survivor1HealthMat: {fileID: 2100000, guid: 8a5a59de96161f246a55820f6263456e, type: 2}
+  Survivor2HealthMat: {fileID: 2100000, guid: 90595d60a3b9b0d4c83c4cab095cce1e, type: 2}
 --- !u!1 &4300621588269956969
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ namespace Quantum
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
             StateManager.Update(f, entityRef);
-            Debug.Log("CurrentState of survivor " + sData->SurvivorID + " : " + sData->CurrentState);
+            //Debug.Log("CurrentState of survivor " + sData->SurvivorID + " : " + sData->CurrentState);
         }
 
         public static void LockAction(Frame f, EntityRef entityRef)
@@ -27,15 +27,16 @@ namespace Quantum
         public static void NotifyAttacked(Frame f, EntityRef entityRef)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
-            Debug.Log(entityRef + " Attack recieved, Break: " + sData->Break + ", Dead: " + sData->Dead + ", Health: " + sData->Health);
 
             if (sData->Break)
             {
                 ReceivedAttack(f, entityRef, true);
+                Debug.Log(entityRef + " Attack received, Caused break: " + sData->Break + ", Dead: " + sData->Dead + ", Health: " + sData->Health);
                 return;
             }
             
             ReceivedAttack(f, entityRef);
+            Debug.Log(entityRef + " Attack received, Caused break: " + sData->Break + ", Dead: " + sData->Dead + ", Health: " + sData->Health);
         }
         
         private static void ReceivedAttack(Frame f, EntityRef entityRef, bool breaking = false)

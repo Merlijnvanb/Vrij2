@@ -199,8 +199,8 @@ Material:
     - _Raymarch_Additional_Light_Self_Shadow_Steps: 8
     - _Raymarch_Depth_Fade: 0
     - _Raymarch_Depth_Fade_Power: 2
-    - _Raymarch_Distance: 20.23
-    - _Raymarch_Distance_Bias: 0.419
+    - _Raymarch_Distance: 20
+    - _Raymarch_Distance_Bias: 0.555
     - _Raymarch_Height_Falloff: 0.456
     - _Raymarch_Height_Offset: 0
     - _Raymarch_Max_Depth: 0
