@@ -49,7 +49,7 @@ MonoBehaviour:
   - {fileID: 378098401971395758}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -123,10 +123,10 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.strings.bank
   Name: Vrij2.strings
   StudioPath: bank:/Vrij2.strings
-  lastModified: 638852481074477876
+  lastModified: 638852893206595772
   FileSizes:
   - Name: 
-    Value: 1088
+    Value: 1160
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -151,12 +151,14 @@ MonoBehaviour:
   - {fileID: -8958420446629425734}
   - {fileID: 6441909386734622122}
   - {fileID: 3745835797027623769}
+  - {fileID: 2448619431566402372}
+  - {fileID: 4385028167041683888}
   EditorParameters: []
   MasterBanks:
   - {fileID: 378098401971395758}
   StringsBanks:
   - {fileID: -554703937508323091}
-  cacheTime: 638852481214339253
+  cacheTime: 638852893206595772
   cacheVersion: 131624
 --- !u!114 &378098401971395758
 MonoBehaviour:
@@ -173,9 +175,36 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.bank
   Name: Vrij2
   StudioPath: bank:/Vrij2
-  lastModified: 638852481214339253
+  lastModified: 638852893206595772
   FileSizes: []
   Exists: 1
+--- !u!114 &2448619431566402372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Parry
+  m_EditorClassIdentifier: 
+  Path: event:/Parry
+  Guid:
+    Data1: -935611365
+    Data2: 1339117682
+    Data3: 369272747
+    Data4: -819934297
+  Banks:
+  - {fileID: 378098401971395758}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 386
 --- !u!114 &2625579066097888024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +260,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10900
+--- !u!114 &4385028167041683888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Camera
+  m_EditorClassIdentifier: 
+  Path: event:/Camera
+  Guid:
+    Data1: 807023068
+    Data2: 1098843767
+    Data3: 774162828
+    Data4: -165028721
+  Banks:
+  - {fileID: 378098401971395758}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3419
 --- !u!114 &6190977949532475498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +333,7 @@ MonoBehaviour:
   - {fileID: 378098401971395758}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
