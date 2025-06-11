@@ -33,6 +33,9 @@ namespace Quantum
         
         public override void Update(Frame f)
         {
+            if (!CheckPlayersConnected(f))
+                return;
+            
             if (!f.Global->RoundDone) CheckDead(f);
             
             SurvivorManager.UpdateSurvivor(f, f.Global->Survivor1);
@@ -75,6 +78,14 @@ namespace Quantum
                     CheckBreak(f);
                 }
             }
+        }
+
+        private bool CheckPlayersConnected(Frame f)
+        {
+            var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
+            var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
+            
+            return sData1->PlayerConnected && sData2->PlayerConnected;
         }
 
         private void CheckBreak(Frame f)

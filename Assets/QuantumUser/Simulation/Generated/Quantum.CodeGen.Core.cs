@@ -867,6 +867,8 @@ namespace Quantum {
   public unsafe partial struct SurvivorData : Quantum.IComponent {
     public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
+    [FieldOffset(24)]
+    public QBoolean PlayerConnected;
     [FieldOffset(4)]
     public Int32 SurvivorID;
     [FieldOffset(56)]
@@ -881,7 +883,7 @@ namespace Quantum {
     public QBoolean Break;
     [FieldOffset(16)]
     public QBoolean Dead;
-    [FieldOffset(24)]
+    [FieldOffset(28)]
     public StateID CurrentState;
     [FieldOffset(0)]
     public Int32 StateFrame;
@@ -892,6 +894,7 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 17389;
+        hash = hash * 31 + PlayerConnected.GetHashCode();
         hash = hash * 31 + SurvivorID.GetHashCode();
         hash = hash * 31 + Position.GetHashCode();
         hash = hash * 31 + Facing.GetHashCode();
@@ -914,6 +917,7 @@ namespace Quantum {
         QBoolean.Serialize(&p->Break, serializer);
         QBoolean.Serialize(&p->Dead, serializer);
         QBoolean.Serialize(&p->IsStateDone, serializer);
+        QBoolean.Serialize(&p->PlayerConnected, serializer);
         serializer.Stream.Serialize((Int32*)&p->CurrentState);
         FP.Serialize(&p->Health, serializer);
         FPVector2.Serialize(&p->Facing, serializer);

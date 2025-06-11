@@ -8,15 +8,21 @@ namespace Quantum
 
     public class HeartbeatView : QuantumEntityViewComponent<IQuantumViewContext>
     {
+        [System.Serializable]
+        public struct LightData
+        {
+            public Light Light;
+            public float IntensityCeil;
+        }
         
         [Header("VISUALS")]
-        public Light Spotlight;
-        public GameObject HeartGO;
+        public LightData[] Lights;
+        //public GameObject HeartGO;
         
 
         [Header("Parameters")] 
         public float LightIntensity;
-        public float EmissionIntensity;
+        //public float EmissionIntensity;
         public float FadeInDuration;
         public float OnDuration;
         public float FallOffFactor;
@@ -24,8 +30,8 @@ namespace Quantum
         [Header("AUDIO")] 
         public StudioEventEmitter AudioEmitter;
         
-        private Material heartMaterial;
-        private float emissionBase;
+        //private Material heartMaterial;
+        //private float emissionBase;
         private float lightBase;
         private float factor = 0;
         //private bool fallOff = false;
@@ -33,10 +39,15 @@ namespace Quantum
         void Start()
         {
             QuantumEvent.Subscribe<EventHeartbeat>(listener: this, handler: HandleBeat);
+
+            for (int i = 0; i < Lights.Length; ++i)
+            {
+                Lights[i].IntensityCeil = Lights[i].Light.intensity;
+            }
             
-            heartMaterial = HeartGO.GetComponent<Renderer>().material;
-            emissionBase = heartMaterial.GetFloat("_EmissionMultiplier");
-            lightBase = Spotlight.intensity;
+            //heartMaterial = HeartGO.GetComponent<Renderer>().material;
+            //emissionBase = heartMaterial.GetFloat("_EmissionMultiplier");
+            lightBase = 0;
         }
 
         void Update()
@@ -45,12 +56,16 @@ namespace Quantum
                 factor -= FallOffFactor * Time.deltaTime;
             else
                 factor = 0;
+
+            foreach (var lightData in Lights)
+            {
+                var lightValue = Mathf.Lerp(lightBase, lightData.IntensityCeil, factor);
+                
+                lightData.Light.intensity = lightValue;
+            }
             
-            var lightValue = Mathf.Lerp(lightBase, LightIntensity, factor);
-            var emissionValue = Mathf.Lerp(emissionBase, EmissionIntensity, factor);
-            
-            Spotlight.intensity = lightValue;
-            heartMaterial.SetFloat("_EmissionMultiplier", emissionValue);
+            //var emissionValue = Mathf.Lerp(emissionBase, EmissionIntensity, factor);
+            //heartMaterial.SetFloat("_EmissionMultiplier", emissionValue);
         }
 
         private void HandleBeat(EventHeartbeat e)

@@ -27,50 +27,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-8890586869865832397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Vrij2.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.strings.bank
-  Name: Vrij2.strings
-  StudioPath: bank:/Vrij2.strings
-  lastModified: 638852496623985709
-  FileSizes:
-  - Name: 
-    Value: 1088
-  Exists: 1
---- !u!114 &-6073699788567177641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Ambience/Intensity
-  m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 100
-  Default: 100
-  ID:
-    data1: 3651978055
-    data2: 323435289
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
 --- !u!114 &-4834963477782819372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +108,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-554703937508323091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Vrij2.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.strings.bank
+  Name: Vrij2.strings
+  StudioPath: bank:/Vrij2.strings
+  lastModified: 638852481074477876
+  FileSizes:
+  - Name: 
+    Value: 1088
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,21 +142,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 378098401971395758}
-  - {fileID: -8890586869865832397}
+  - {fileID: -554703937508323091}
   EditorEvents:
   - {fileID: -2475320543497209475}
   - {fileID: -4834963477782819372}
   - {fileID: -1770767621200344747}
   - {fileID: 2625579066097888024}
   - {fileID: -8958420446629425734}
-  - {fileID: 6036632666590516606}
-  - {fileID: 3089468160545397373}
+  - {fileID: 6441909386734622122}
+  - {fileID: 3745835797027623769}
   EditorParameters: []
   MasterBanks:
   - {fileID: 378098401971395758}
   StringsBanks:
-  - {fileID: -8890586869865832397}
-  cacheTime: 638852496623985709
+  - {fileID: -554703937508323091}
+  cacheTime: 638852481214339253
   cacheVersion: 131624
 --- !u!114 &378098401971395758
 MonoBehaviour:
@@ -197,7 +173,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD/FMODBuild/Desktop/Vrij2.bank
   Name: Vrij2
   StudioPath: bank:/Vrij2
-  lastModified: 638852496623975784
+  lastModified: 638852481214339253
   FileSizes: []
   Exists: 1
 --- !u!114 &2625579066097888024
@@ -227,7 +203,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10764
---- !u!114 &3089468160545397373
+--- !u!114 &3745835797027623769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,11 +227,35 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -6073699788567177641}
+  - {fileID: 6190977949532475498}
   MinDistance: 1
   MaxDistance: 20
   Length: 10900
---- !u!114 &6036632666590516606
+--- !u!114 &6190977949532475498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ambience/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 100
+  ID:
+    data1: 3651978055
+    data2: 323435289
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &6441909386734622122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

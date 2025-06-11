@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ArtSceneTestAssets/press_start_2p.meta
 guid: e8919e7acf704d948b8985ac2879bb78
 folderAsset: yes
+========
+guid: ceac42b9ce23e8d4ab23ab79ced325a0
+>>>>>>>> PolishBranch:Assets/UserChoices.choices.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

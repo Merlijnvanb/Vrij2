@@ -29,7 +29,11 @@ namespace Quantum
         public Transform Body;
         public CinemachineTargetGroup TargetGroup;
         public SpriteRenderer SpriteRenderer;
+        public SpriteRenderer ChildSpriteRenderer;
         public SurvivorAnimations Animations;
+
+        public Material Survivor1HealthMat;
+        public Material Survivor2HealthMat;
 
         private bool groupAssigned;
         private Sprite currentSprite;
@@ -37,19 +41,24 @@ namespace Quantum
         private AnimationProperties currentAnim;
         private float spriteTime;
         private int currentSpriteIndex;
+        private Vector3 startingScale;
 
         void Start()
         {
             TargetGroup = FindFirstObjectByType<CinemachineTargetGroup>();
             groupAssigned = true;
+            startingScale = new Vector3(1.5f, 1.5f, 1.5f);
             
             if (!PredictedFrame.TryGet<SurvivorData>(EntityRef, out var survivorData))
                 return;
             
+            ChildSpriteRenderer.material = survivorData.SurvivorID == 1 ? Survivor1HealthMat : Survivor2HealthMat;
             currentState = survivorData.CurrentState;
             currentAnim = GetAnimation(currentState);
             spriteTime = 0;
             currentSpriteIndex = 0;
+            
+            Debug.Log("Survivor View setup successfully");
         }
 
         public override void OnUpdateView()
@@ -77,13 +86,23 @@ namespace Quantum
             
             var pos = survivorData.Position.ToUnityVector2();
             var facing = survivorData.Facing.ToUnityVector2();
-            var facing3D = facing.x > 0 ? new Vector3(1, 0, 0) : new Vector3(-1, 0, 0);
+            var facingLeft = facing.x < 0;
+            var facingRight = facing.x > 0;
             
             Body.position = new Vector3(pos.x, Body.position.y, pos.y);
-            Body.rotation = Quaternion.LookRotation(facing3D, Vector3.up);
             
+            if (facingRight)
+                Body.localScale = startingScale;
+            
+            if (facingLeft)
+                Body.localScale = new Vector3(-startingScale.x, startingScale.y, startingScale.z);
+
             if (currentSprite != null)
+            {
                 SpriteRenderer.sprite = currentSprite;
+                ChildSpriteRenderer.sprite = currentSprite;
+            }
+            
             
             if (!groupAssigned)
                 return;
