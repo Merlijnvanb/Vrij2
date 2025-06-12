@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef11b24dd8b636479cc530200469ee2, type: 3}
   m_Name: QuantumMapSceneInfo
   m_EditorClassIdentifier: 
-  Name: QuantumGameScene
-  ScenePath: Assets/QuantumUser/Scenes/QuantumGameScene.unity
+  Name: QuantumGameFinal
+  ScenePath: Assets/Scenes/Final/QuantumGameFinal.unity
   Preview: {fileID: 0}
   IsHidden: 0
   RuntimeConfig:
@@ -26,4 +26,10 @@ MonoBehaviour:
         Value: 2065508327709837550
     SystemsConfig:
       Id:
-        Value: 2342996988033806800
+        Value: 376557372260331311
+    SurvivorPrototype:
+      Id:
+        Value: 1418415641616828466
+    GameConfig:
+      Id:
+        Value: 403324705608927822

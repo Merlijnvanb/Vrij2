@@ -133,7 +133,7 @@ MonoBehaviour:
   CharacterController2DConfig: {fileID: -2349058414410888875}
   CharacterController3DConfig: {fileID: 100472158219067697}
   NavMeshAgentConfig: {fileID: -7858058155780207105}
-  SystemsConfig: {fileID: 1455051329426777643}
+  SystemsConfig: {fileID: 11400000, guid: 503425b654ddf6842970524a18a94cc2, type: 2}
 --- !u!114 &100472158219067697
 MonoBehaviour:
   m_ObjectHideFlags: 0

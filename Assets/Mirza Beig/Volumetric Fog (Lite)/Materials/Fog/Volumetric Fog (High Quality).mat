@@ -143,7 +143,7 @@ Material:
     - _Curl_Strength_Raymarch_Offset: 2
     - _Curl_Strength_Raymarch_Sample: 0.2
     - _Cutoff: 0.5
-    - _Density: 1
+    - _Density: 0.14
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -185,14 +185,14 @@ Material:
     - _Main_Light_Self_Shadow_Sample_Offset: 0.2
     - _Main_Light_Self_Shadow_Steps: 1
     - _Main_Light_Self_Shadow_Strength: 1
-    - _Main_Light_Shadow_Strength: 0.9
+    - _Main_Light_Shadow_Strength: 0
     - _Metallic: 0
     - _Noise_Blend: 0.5
     - _OcclusionStrength: 1
     - _PROBE_VOLUMES: 2
     - _PROCEDURAL_DENSITY: 0
     - _Parallax: 0.005
-    - _Power: 1.1
+    - _Power: 1.3
     - _QueueOffset: 0
     - _RAYMARCH_CLAMP_TO_SURFACE: 0
     - _RaymarchSteps: 2.29
@@ -206,7 +206,7 @@ Material:
     - _Raymarch_Max_Depth: 0
     - _Raymarch_Noise: 0.011
     - _Raymarch_Self_Shadow_Steps: 4
-    - _Raymarch_Steps: 14.9
+    - _Raymarch_Steps: 12
     - _ReceiveShadows: 1
     - _Remap_Max: 0.9
     - _Remap_Min: 0

@@ -58,7 +58,7 @@ MonoBehaviour:
     Damage:
       RawValue: 1638400
   ParryData:
-    TotalFrames: 60
+    TotalFrames: 240
     StartupFrames: 15
     ActiveFrames: 20
   StunData:

@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1866b5b3197d3cf44958407f51ffe981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoundsText: {fileID: 0}
+  RoundsText: {fileID: 1237952911}
   MadeItSceneIndex: 2
   SacrificedSceneIndex: 3
 --- !u!1 &384729836
@@ -1210,6 +1210,17 @@ Light:
   m_CorrespondingSourceObject: {fileID: 1564937722815706019, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
   m_PrefabInstance: {fileID: 1269293300}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1237952911 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1753471283389812648, guid: ff4b35778a8e27844ac41ad99462c9a6, type: 3}
+  m_PrefabInstance: {fileID: 869110906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1269293300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1278,9 +1289,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1210700404713725658, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
+      propertyPath: m_Intensity
+      value: 162.03
+      objectReference: {fileID: 0}
     - target: {fileID: 1222562368184390825, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1564937722815706019, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
+      propertyPath: m_Intensity
+      value: 162.03
       objectReference: {fileID: 0}
     - target: {fileID: 2189151402087072862, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
       propertyPath: m_Enabled
@@ -1289,6 +1308,18 @@ PrefabInstance:
     - target: {fileID: 3541007948972031096, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541007948972031096, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
+      propertyPath: m_Intensity
+      value: 1314.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572815318983635078, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
+      propertyPath: m_Intensity
+      value: 1314.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784217894535057343, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
+      propertyPath: m_Intensity
+      value: 1314.3
       objectReference: {fileID: 0}
     - target: {fileID: 4932445379679318575, guid: 53f9247cfa412274d9f5bdd75dcf6aaf, type: 3}
       propertyPath: m_IsActive
@@ -1540,6 +1571,10 @@ PrefabInstance:
     - target: {fileID: 1340429413694498, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_Name
       value: QuantumStats
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340429413694498, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224646617726674220, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_Pivot.x
@@ -1861,13 +1896,13 @@ MonoBehaviour:
   LocalPlayers:
   - PlayerAvatar:
       Id:
-        Value: 0
+        Value: 1418415641616828466
     PlayerNickname: 
   - PlayerAvatar:
       Id:
-        Value: 0
+        Value: 1418415641616828466
     PlayerNickname: 
-  MaxPlayerCount: 0
+  MaxPlayerCount: 2
   SimulationSpeedMultiplier: 1
   DisplaySaveAndReloadButton: 0
   PreloadAddressables: 0
@@ -2403,8 +2438,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 1
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -3354,7 +3389,7 @@ Camera:
   field of view: 82
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3366,7 +3401,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!114 &9132456583844092046

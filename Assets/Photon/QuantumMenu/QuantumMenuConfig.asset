@@ -31,7 +31,7 @@ MonoBehaviour:
   - usw
   _availableScenes:
   - Name: VoxCarnis
-    ScenePath: Assets/QuantumUser/Scenes/QuantumGameFinal.unity
+    ScenePath: Assets/Scenes/Final/QuantumGameFinal.unity
     Preview: {fileID: 0}
     RuntimeConfig:
       Seed: 0
