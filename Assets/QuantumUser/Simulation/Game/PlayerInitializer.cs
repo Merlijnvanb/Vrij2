@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Quantum
 {
     using Photon.Deterministic;
@@ -38,6 +40,8 @@ namespace Quantum
         {
             if (player._index > 2)
                 return;
+            
+            Debug.Log("Player Added with index: " + player._index);
             
             var survivorEntity = player._index == 1 ? f.Global->Survivor1 : f.Global->Survivor2;
             var playerLink = f.Unsafe.GetPointer<PlayerLink>(survivorEntity);

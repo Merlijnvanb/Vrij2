@@ -29,7 +29,7 @@ namespace Quantum
         public Transform Body;
         public CinemachineTargetGroup TargetGroup;
         public SpriteRenderer SpriteRenderer;
-        public SpriteRenderer ChildSpriteRenderer;
+        public SpriteRenderer HealthSpriteRenderer;
         public SurvivorAnimations Animations;
 
         public Material Survivor1HealthMat;
@@ -45,6 +45,8 @@ namespace Quantum
 
         void Start()
         {
+            QuantumEvent.Subscribe<EventUpdateHealth>(listener: this, handler: UpdateHealth);
+            
             TargetGroup = FindFirstObjectByType<CinemachineTargetGroup>();
             groupAssigned = true;
             startingScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -52,7 +54,7 @@ namespace Quantum
             if (!PredictedFrame.TryGet<SurvivorData>(EntityRef, out var survivorData))
                 return;
             
-            ChildSpriteRenderer.material = survivorData.SurvivorID == 1 ? Survivor1HealthMat : Survivor2HealthMat;
+            HealthSpriteRenderer.material = survivorData.SurvivorID == 1 ? Survivor1HealthMat : Survivor2HealthMat;
             currentState = survivorData.CurrentState;
             currentAnim = GetAnimation(currentState);
             spriteTime = 0;
@@ -100,9 +102,8 @@ namespace Quantum
             if (currentSprite != null)
             {
                 SpriteRenderer.sprite = currentSprite;
-                ChildSpriteRenderer.sprite = currentSprite;
+                HealthSpriteRenderer.sprite = currentSprite;
             }
-            
             
             if (!groupAssigned)
                 return;
@@ -111,6 +112,36 @@ namespace Quantum
                 TargetGroup.Targets[0].Object = Body;
             else
                 TargetGroup.Targets[1].Object = Body;
+        }
+
+        private void UpdateHealth(EventUpdateHealth e)
+        {
+            if (!PredictedFrame.TryGet<SurvivorData>(EntityRef, out var survivorData))
+                return;
+
+            if (survivorData.SurvivorID != e.SurvivorID)
+                return;
+            
+            if (e.CurrentState == StateID.STUN || e.Break)
+                HealthSpriteRenderer.material.SetInt("_Flicker", 1);
+            else
+                HealthSpriteRenderer.material.SetInt("_Flicker", 0);
+
+            if (!e.Break)
+            {
+                var healthNormalized = e.CurrentHealth / e.MaxHealth;
+                HealthSpriteRenderer.material.SetFloat("_HealthNormalized", healthNormalized.AsFloat);
+            }
+            else if (e.Break && !e.Dead)
+            {
+                var healthNormalized = 1f;
+                HealthSpriteRenderer.material.SetFloat("_HealthNormalized", healthNormalized);
+            }
+            else if (e.Dead)
+            {
+                var healthNormalized = 0f;
+                HealthSpriteRenderer.material.SetFloat("_HealthNormalized", healthNormalized);
+            }
         }
 
         private void UpdateSprite()

@@ -412,6 +412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
+    PlayerConnected:
+      Value: 0
     SurvivorID: 0
     Position:
       X:
@@ -456,7 +458,7 @@ MonoBehaviour:
   Body: {fileID: 2290519598085877879}
   TargetGroup: {fileID: 0}
   SpriteRenderer: {fileID: 4051141294994106242}
-  ChildSpriteRenderer: {fileID: 488492735233350735}
+  HealthSpriteRenderer: {fileID: 488492735233350735}
   Animations:
     Idle:
       Sprites:

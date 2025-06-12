@@ -5,6 +5,7 @@ global
     
     int S1Score;
     int S2Score;
+    int RoundNumber;
     
     int BeatsMaxInterval;
     int BeatsMinInterval;
@@ -18,6 +19,12 @@ global
     FP FrictionCoefficient;
     FP ArenaRadius;
     FP CenterRadius;
+    
+    FPVector2 TentaclePos;
+    FP TentacleRadius;
+    int TentacleActiveBeatsMin;
+    int TentacleActiveBeatsMax;
+    int CurrentTentacleActiveBeats;
     
     FP BaseHealth;
     

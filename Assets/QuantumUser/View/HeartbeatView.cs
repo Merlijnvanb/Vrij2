@@ -23,12 +23,14 @@ namespace Quantum
         [Header("Parameters")] 
         public float LightIntensity;
         //public float EmissionIntensity;
+        public float AudioDelay;
         public float FadeInDuration;
         public float OnDuration;
         public float FallOffFactor;
 
         [Header("AUDIO")] 
-        public StudioEventEmitter AudioEmitter;
+        public StudioEventEmitter HeartAudio1;
+        public StudioEventEmitter HeartAudio2;
         
         //private Material heartMaterial;
         //private float emissionBase;
@@ -79,19 +81,23 @@ namespace Quantum
             // heart1.setOnUpdate((f) => heartMaterial.SetFloat("_EmissionMultiplier", f));
             // light1.setEaseInCubic();
             // heart1.setEaseInCubic();
-            
-            AudioEmitter.Play();
         }
 
         private IEnumerator LightingSequence()
         {
+            HeartAudio1.Play();
+            yield return new WaitForSeconds(AudioDelay);
+            
             LTDescr factorTween;
             factorTween = LeanTween.value(factor, 1f, FadeInDuration);
             factorTween.setOnUpdate((f) => factor = f);
             
             yield return new WaitForSeconds(FadeInDuration);
             yield return new WaitForSeconds(OnDuration);
-          
+            
+            HeartAudio2.Play();
+            yield return new WaitForSeconds(AudioDelay);
+            
             factorTween = LeanTween.value(factor, 1f, FadeInDuration);
             factorTween.setOnUpdate((f) => factor = f);
             

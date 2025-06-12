@@ -699,7 +699,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1280;
+    public const Int32 SIZE = 1320;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -726,43 +726,55 @@ namespace Quantum {
     private fixed Byte _input_[504];
     [FieldOffset(1112)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(1160)]
+    [FieldOffset(1176)]
     public EntityRef Survivor1;
-    [FieldOffset(1168)]
+    [FieldOffset(1184)]
     public EntityRef Survivor2;
-    [FieldOffset(1144)]
+    [FieldOffset(1152)]
     public Int32 S1Score;
-    [FieldOffset(1148)]
+    [FieldOffset(1156)]
     public Int32 S2Score;
+    [FieldOffset(1148)]
+    public Int32 RoundNumber;
     [FieldOffset(1120)]
     public Int32 BeatsMaxInterval;
     [FieldOffset(1124)]
     public Int32 BeatsMinInterval;
-    [FieldOffset(1140)]
+    [FieldOffset(1144)]
     public Int32 PreRoundTimer;
-    [FieldOffset(1132)]
-    public Int32 MaxIntensityTimer;
     [FieldOffset(1136)]
+    public Int32 MaxIntensityTimer;
+    [FieldOffset(1140)]
     public Int32 PostRoundTimer;
-    [FieldOffset(1152)]
+    [FieldOffset(1168)]
     public QBoolean RoundDone;
-    [FieldOffset(1208)]
-    public FP FrictionCoefficient;
-    [FieldOffset(1176)]
-    public FP ArenaRadius;
-    [FieldOffset(1200)]
-    public FP CenterRadius;
-    [FieldOffset(1184)]
-    public FP BaseHealth;
-    [FieldOffset(1216)]
-    public MoveData MoveData;
-    [FieldOffset(1240)]
-    public AttackData AttackData;
     [FieldOffset(1224)]
-    public ParryData ParryData;
-    [FieldOffset(1156)]
-    public StunData StunData;
+    public FP FrictionCoefficient;
     [FieldOffset(1192)]
+    public FP ArenaRadius;
+    [FieldOffset(1216)]
+    public FP CenterRadius;
+    [FieldOffset(1264)]
+    public FPVector2 TentaclePos;
+    [FieldOffset(1232)]
+    public FP TentacleRadius;
+    [FieldOffset(1164)]
+    public Int32 TentacleActiveBeatsMin;
+    [FieldOffset(1160)]
+    public Int32 TentacleActiveBeatsMax;
+    [FieldOffset(1132)]
+    public Int32 CurrentTentacleActiveBeats;
+    [FieldOffset(1200)]
+    public FP BaseHealth;
+    [FieldOffset(1240)]
+    public MoveData MoveData;
+    [FieldOffset(1280)]
+    public AttackData AttackData;
+    [FieldOffset(1248)]
+    public ParryData ParryData;
+    [FieldOffset(1172)]
+    public StunData StunData;
+    [FieldOffset(1208)]
     public FP BeatsRampPercentage;
     [FieldOffset(1128)]
     public Int32 BeatsTimer;
@@ -790,6 +802,7 @@ namespace Quantum {
         hash = hash * 31 + Survivor2.GetHashCode();
         hash = hash * 31 + S1Score.GetHashCode();
         hash = hash * 31 + S2Score.GetHashCode();
+        hash = hash * 31 + RoundNumber.GetHashCode();
         hash = hash * 31 + BeatsMaxInterval.GetHashCode();
         hash = hash * 31 + BeatsMinInterval.GetHashCode();
         hash = hash * 31 + PreRoundTimer.GetHashCode();
@@ -799,6 +812,11 @@ namespace Quantum {
         hash = hash * 31 + FrictionCoefficient.GetHashCode();
         hash = hash * 31 + ArenaRadius.GetHashCode();
         hash = hash * 31 + CenterRadius.GetHashCode();
+        hash = hash * 31 + TentaclePos.GetHashCode();
+        hash = hash * 31 + TentacleRadius.GetHashCode();
+        hash = hash * 31 + TentacleActiveBeatsMin.GetHashCode();
+        hash = hash * 31 + TentacleActiveBeatsMax.GetHashCode();
+        hash = hash * 31 + CurrentTentacleActiveBeats.GetHashCode();
         hash = hash * 31 + BaseHealth.GetHashCode();
         hash = hash * 31 + MoveData.GetHashCode();
         hash = hash * 31 + AttackData.GetHashCode();
@@ -826,11 +844,15 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->BeatsMaxInterval);
         serializer.Stream.Serialize(&p->BeatsMinInterval);
         serializer.Stream.Serialize(&p->BeatsTimer);
+        serializer.Stream.Serialize(&p->CurrentTentacleActiveBeats);
         serializer.Stream.Serialize(&p->MaxIntensityTimer);
         serializer.Stream.Serialize(&p->PostRoundTimer);
         serializer.Stream.Serialize(&p->PreRoundTimer);
+        serializer.Stream.Serialize(&p->RoundNumber);
         serializer.Stream.Serialize(&p->S1Score);
         serializer.Stream.Serialize(&p->S2Score);
+        serializer.Stream.Serialize(&p->TentacleActiveBeatsMax);
+        serializer.Stream.Serialize(&p->TentacleActiveBeatsMin);
         QBoolean.Serialize(&p->RoundDone, serializer);
         Quantum.StunData.Serialize(&p->StunData, serializer);
         EntityRef.Serialize(&p->Survivor1, serializer);
@@ -840,8 +862,10 @@ namespace Quantum {
         FP.Serialize(&p->BeatsRampPercentage, serializer);
         FP.Serialize(&p->CenterRadius, serializer);
         FP.Serialize(&p->FrictionCoefficient, serializer);
+        FP.Serialize(&p->TentacleRadius, serializer);
         Quantum.MoveData.Serialize(&p->MoveData, serializer);
         Quantum.ParryData.Serialize(&p->ParryData, serializer);
+        FPVector2.Serialize(&p->TentaclePos, serializer);
         Quantum.AttackData.Serialize(&p->AttackData, serializer);
     }
   }

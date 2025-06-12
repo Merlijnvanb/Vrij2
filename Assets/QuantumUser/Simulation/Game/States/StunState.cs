@@ -6,17 +6,25 @@ namespace Quantum
     [Preserve]
     public unsafe class StunState
     {
-        public static void Initialize(Frame f, EntityRef entityRef)
+        public static void Initialize(Frame f, EntityRef entityRef, bool tentacle = false)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
-            
-            var otherSurvivor = sData->SurvivorID == 1 ? f.Global->Survivor2 : f.Global->Survivor1;
-            var otherSData = f.Unsafe.GetPointer<SurvivorData>(otherSurvivor);
-            
-            var facing = (otherSData->Position - sData->Position).Normalized;
-            sData->Facing = facing;
-            
-            sData->Velocity = -facing * f.Global->AttackData.Knockback;
+
+            if (!tentacle)
+            {
+                var otherSurvivor = sData->SurvivorID == 1 ? f.Global->Survivor2 : f.Global->Survivor1;
+                var otherSData = f.Unsafe.GetPointer<SurvivorData>(otherSurvivor);
+
+                var facing = (otherSData->Position - sData->Position).Normalized;
+                sData->Facing = facing;
+                sData->Velocity = -facing * f.Global->AttackData.Knockback;
+            }
+            else
+            {
+                var facing = (f.Global->TentaclePos - sData->Position).Normalized;
+                sData->Facing = facing;
+                sData->Velocity = -facing * f.Global->AttackData.Knockback;
+            }
         }
         
         public static void Update(Frame f, EntityRef entityRef)

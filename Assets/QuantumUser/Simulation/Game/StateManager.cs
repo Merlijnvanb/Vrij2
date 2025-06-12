@@ -15,7 +15,10 @@ namespace Quantum
 
             if (sData->IsStateDone)
             {
-                sData->CurrentState = sData->Dead ? StateID.DEATH : StateID.IDLE;
+                var isDead = sData->Dead;
+
+                if (isDead) f.Events.Death(sData->SurvivorID, sData->Position);
+                sData->CurrentState = isDead ? StateID.DEATH : StateID.IDLE;
             }
 
             switch (sData->CurrentState)
@@ -53,6 +56,7 @@ namespace Quantum
             switch (state)
             {
                 case StateID.MOVE:
+                    f.Events.Footstep(sData->SurvivorID, sData->Position);
                     MoveState.Initialize(f, entityRef);
                     break;
                 

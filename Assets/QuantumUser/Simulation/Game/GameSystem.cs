@@ -13,6 +13,7 @@ namespace Quantum
             var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
             f.Global->S1Score = 0;
             f.Global->S2Score = 0;
+            f.Global->RoundNumber = 1;
             f.Global->BeatsMaxInterval = FPMath.FloorToInt(gameConfig.BeatIntervalMaxMinSeconds.X * 60);
             f.Global->BeatsMinInterval = FPMath.FloorToInt(gameConfig.BeatIntervalMaxMinSeconds.Y * 60);
             f.Global->PreRoundTimer = FPMath.FloorToInt(gameConfig.PreRoundTimerSeconds * 60);
@@ -22,6 +23,11 @@ namespace Quantum
             f.Global->FrictionCoefficient = gameConfig.FrictionCoefficient;
             f.Global->ArenaRadius = gameConfig.ArenaRadius;
             f.Global->CenterRadius = gameConfig.CenterRadius;
+            f.Global->TentaclePos = gameConfig.TentacleStart;
+            f.Global->TentacleRadius = gameConfig.TentacleRadius;
+            f.Global->TentacleActiveBeatsMin = gameConfig.TentacleBeatsActiveMin;
+            f.Global->TentacleActiveBeatsMax = gameConfig.TentacleBeatsActiveMax;
+            f.Global->CurrentTentacleActiveBeats = 0;
             f.Global->BaseHealth = gameConfig.BaseHealth;
             f.Global->MoveData = gameConfig.MoveData;
             f.Global->AttackData = gameConfig.AttackData;
@@ -54,16 +60,23 @@ namespace Quantum
             }
             else if (f.Global->RoundDone && f.Global->PostRoundTimer <= 0)
             {
-                ResetRound(f);
+                if (CheckIfNewRound(f)) ResetRound(f);
+                else EndGame(f);
             }
             
             RunBeatTimer(f);
 
+            if (HitReg.TentacleInRange(f, f.Global->Survivor1))
+                SurvivorManager.NotifyAttacked(f, f.Global->Survivor1, true);
+            
+            if (HitReg.TentacleInRange(f, f.Global->Survivor2))
+                SurvivorManager.NotifyAttacked(f, f.Global->Survivor2, true);
+
             if (HitReg.AreInRange(f))
             {
-                if (HitReg.CheckHit(f))
+                if (HitReg.CheckSurvivorHit(f))
                 {
-                    RampBeatIntervalPercentage(f, 20);
+                    RampBeatIntervalPercentage(f, 5);
                 }
             }
             
@@ -75,7 +88,7 @@ namespace Quantum
 
                 if (f.Global->MaxIntensityTimer <= 0)
                 {
-                    CheckBreak(f);
+                    KillBothNoScore(f);
                 }
             }
         }
@@ -84,27 +97,18 @@ namespace Quantum
         {
             var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
             var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
+            Debug.Log("survivor1 connected: " + sData1->PlayerConnected + ", survivor2 connected: " + sData2->PlayerConnected);
             
             return sData1->PlayerConnected && sData2->PlayerConnected;
         }
 
-        private void CheckBreak(Frame f)
+        private void KillBothNoScore(Frame f)
         {
             var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
             var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
-
-            var isBreak1 = sData1->Break;
-            var isBreak2 = sData2->Break;
-
-            if (isBreak1)
-            {
-                sData1->Dead = true;
-            }
-
-            if (isBreak2)
-            {
-                sData2->Dead = true;
-            }
+            
+            sData1->Dead = true;
+            sData2->Dead = true;
         }
 
         private void CheckDead(Frame f)
@@ -115,15 +119,30 @@ namespace Quantum
             var isDead1 = sData1->Dead;
             var isDead2 = sData2->Dead;
 
+            if (isDead1 && isDead2)
+            {
+                f.Global->RoundDone = true;
+                return;
+            }
+            
             if (isDead1) f.Global->S2Score++;
             if (isDead2) f.Global->S1Score++;
 
             f.Global->RoundDone = isDead1 || isDead2;
         }
 
+        private bool CheckIfNewRound(Frame f)
+        {
+            if (f.Global->RoundNumber == 3) 
+                return false;
+            
+            return true;
+        }
+
         private void ResetRound(Frame f)
         {
             var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
+            f.Global->RoundNumber++;
             f.Global->PreRoundTimer = FPMath.FloorToInt(gameConfig.PreRoundTimerSeconds * 60);
             f.Global->MaxIntensityTimer = FPMath.FloorToInt(gameConfig.MaxIntensityTimerSeconds * 60);
             f.Global->PostRoundTimer = FPMath.FloorToInt(gameConfig.PostRoundTimerSeconds * 60);
@@ -131,6 +150,14 @@ namespace Quantum
             
             SurvivorManager.RoundReset(f, f.Global->Survivor1);
             SurvivorManager.RoundReset(f, f.Global->Survivor2);
+        }
+
+        private void EndGame(Frame f)
+        {
+            var s1MadeIt = f.Global->S1Score >= 2;
+            var s2MadeIt = f.Global->S2Score >= 2;
+            
+            f.Events.EndGame(s1MadeIt, s2MadeIt);
         }
 
         private void RampBeatIntervalPercentage(Frame f, int amount)
@@ -165,6 +192,20 @@ namespace Quantum
 
         private void OnBeat(Frame f)
         {
+            if (f.Global->CurrentTentacleActiveBeats >= 0)
+            {
+                f.Global->CurrentTentacleActiveBeats--;
+            }
+            else
+            {
+                f.Global->TentaclePos = TentacleManager.GetRandomPoint(f);
+                f.Events.TentacleMove(f.Global->TentaclePos);
+
+                var min = f.Global->TentacleActiveBeatsMin;
+                var max = f.Global->TentacleActiveBeatsMax;
+                f.Global->CurrentTentacleActiveBeats = f.RNG->Next(min, max);
+            }
+            
             SurvivorManager.LockAction(f, f.Global->Survivor1);
             SurvivorManager.LockAction(f, f.Global->Survivor2);
             f.Events.Heartbeat(f.Global->BeatsRampPercentage);

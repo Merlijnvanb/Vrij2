@@ -14,6 +14,11 @@ namespace Quantum
         public FP ArenaRadius;
         public FP CenterRadius;
 
+        public FPVector2 TentacleStart;
+        public FP TentacleRadius;
+        public int TentacleBeatsActiveMin;
+        public int TentacleBeatsActiveMax;
+
         public FP BaseHealth;
         
         public MoveData MoveData;

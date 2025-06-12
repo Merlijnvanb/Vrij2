@@ -33,11 +33,20 @@ MonoBehaviour:
     RawValue: 491520
   CenterRadius:
     RawValue: 131072
+  TentacleStart:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: -196608
+  TentacleRadius:
+    RawValue: 65536
+  TentacleBeatsActiveMin: 2
+  TentacleBeatsActiveMax: 5
   BaseHealth:
     RawValue: 6553600
   MoveData:
     MoveVelocity:
-      RawValue: 6554
+      RawValue: 9830
   AttackData:
     TotalFrames: 60
     StartupFrames: 20
@@ -45,9 +54,9 @@ MonoBehaviour:
     Range:
       RawValue: 98304
     Knockback:
-      RawValue: 6554
+      RawValue: 13107
     Damage:
-      RawValue: 3276800
+      RawValue: 1638400
   ParryData:
     TotalFrames: 60
     StartupFrames: 15

@@ -2,3 +2,49 @@ event Heartbeat
 {
     FP BeatRampPercentage;
 }
+
+event TentacleMove
+{
+    FPVector2 NewPos;
+}
+
+event UpdateHealth
+{
+    int SurvivorID;
+
+    FP MaxHealth;
+    FP CurrentHealth;
+    StateID CurrentState;
+    bool Break;
+    bool Dead;
+}
+
+event EndGame
+{
+    bool Survivor1MadeIt;
+    bool Survivor2MadeIt;
+}
+
+event Footstep
+{
+    int SurvivorID;
+    FPVector2 Pos;
+}
+
+event Hit
+{
+    int SurvivorID;
+    FPVector2 Pos;
+}
+
+event Parry
+{
+    int SurvivorID;
+    FPVector2 Pos;
+}
+
+event Death
+{
+    int SurvivorID;
+    FPVector2 Pos;
+}

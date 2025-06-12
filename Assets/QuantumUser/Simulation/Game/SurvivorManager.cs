@@ -13,6 +13,14 @@ namespace Quantum
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
             
             StateManager.Update(f, entityRef);
+
+            f.Events.UpdateHealth(
+                sData->SurvivorID,
+                f.Global->BaseHealth,
+                sData->Health,
+                sData->CurrentState,
+                sData->Break,
+                sData->Dead);
             //Debug.Log("CurrentState of survivor " + sData->SurvivorID + " : " + sData->CurrentState);
         }
 
@@ -24,18 +32,24 @@ namespace Quantum
             Log.Debug("Survivor: " + sData->SurvivorID + " Current state: " + sData->CurrentState);
         }
 
-        public static void NotifyAttacked(Frame f, EntityRef entityRef)
+        public static void NotifyAttacked(Frame f, EntityRef entityRef, bool tentacle = false)
         {
             var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
 
+            if (sData->CurrentState == StateID.STUN)
+                return;
+
             if (sData->Break)
             {
-                ReceivedAttack(f, entityRef, true);
+                if (tentacle) ReceivedTentacleAttack(f, entityRef, true);
+                else ReceivedAttack(f, entityRef, true);
+                
                 Debug.Log(entityRef + " Attack received, Caused break: " + sData->Break + ", Dead: " + sData->Dead + ", Health: " + sData->Health);
                 return;
             }
             
-            ReceivedAttack(f, entityRef);
+            if (tentacle) ReceivedTentacleAttack(f, entityRef);
+            else ReceivedAttack(f, entityRef);
             Debug.Log(entityRef + " Attack received, Caused break: " + sData->Break + ", Dead: " + sData->Dead + ", Health: " + sData->Health);
         }
         
@@ -45,6 +59,8 @@ namespace Quantum
 
             if (sData->CurrentState == StateID.PARRY && ParryState.IsActive(f, entityRef))
             {
+                f.Events.Parry(sData->SurvivorID, sData->Position);
+                
                 var otherSurvivor = sData->SurvivorID == 1 ? f.Global->Survivor2 : f.Global->Survivor1;
                 NotifyAttacked(f, otherSurvivor);
                 ParryState.OnSuccess(f, entityRef);
@@ -53,6 +69,8 @@ namespace Quantum
 
             if (breaking)
             {
+                f.Events.Hit(sData->SurvivorID, sData->Position);
+                
                 sData->Dead = true;
                 StateManager.SetState(f, entityRef, StateID.STUN);
                 StunState.Initialize(f, entityRef);
@@ -66,8 +84,39 @@ namespace Quantum
                 sData->Break = true;
             }
             
+            f.Events.Hit(sData->SurvivorID, sData->Position);
+            
             StateManager.SetState(f, entityRef, StateID.STUN);
             StunState.Initialize(f, entityRef);
+        }
+        
+        private static void ReceivedTentacleAttack(Frame f, EntityRef entityRef, bool breaking = false)
+        {
+            var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
+
+            if (sData->CurrentState == StateID.PARRY && ParryState.IsActive(f, entityRef))
+            {
+                ParryState.OnSuccess(f, entityRef);
+                return;
+            }
+
+            if (breaking)
+            {
+                sData->Dead = true;
+                StateManager.SetState(f, entityRef, StateID.STUN);
+                StunState.Initialize(f, entityRef, true);
+                return;
+            }
+            
+            sData->Health -= f.Global->AttackData.Damage;
+
+            if (sData->Health <= 0)
+            {
+                sData->Break = true;
+            }
+            
+            StateManager.SetState(f, entityRef, StateID.STUN);
+            StunState.Initialize(f, entityRef, true);
         }
 
         public static void RoundReset(Frame f, EntityRef entityRef)

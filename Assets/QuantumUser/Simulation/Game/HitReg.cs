@@ -6,6 +6,17 @@ namespace Quantum
     [Preserve]
     public unsafe class HitReg
     {
+        public static bool TentacleInRange(Frame f, EntityRef entityRef)
+        {
+            var sData = f.Unsafe.GetPointer<SurvivorData>(entityRef);
+            
+            var survivorPos = sData->Position;
+            var tentaclePos = f.Global->TentaclePos;
+            var distance = FPVector2.Distance(survivorPos, tentaclePos);
+
+            return distance <= f.Global->TentacleRadius;
+        }
+        
         public static bool AreInRange(Frame f)
         {
             var survivor1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
@@ -17,7 +28,7 @@ namespace Quantum
             return diff.Magnitude < f.Global->AttackData.Range;
         }
 
-        public static bool CheckHit(Frame f)
+        public static bool CheckSurvivorHit(Frame f)
         {
             var survivor1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
             var survivor2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
