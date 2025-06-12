@@ -1,3 +1,5 @@
+using TMPro;
+
 namespace Quantum
 {
     using UnityEngine;
@@ -5,11 +7,14 @@ namespace Quantum
 
     public class GameView : QuantumEntityViewComponent<IQuantumViewContext>
     {
+        public TextMeshProUGUI RoundsText;
+        
         public int MadeItSceneIndex;
         public int SacrificedSceneIndex;
         
         void Start()
         {
+            QuantumEvent.Subscribe<EventNewRound>(listener: this, handler: HandleNewRound);
             QuantumEvent.Subscribe<EventEndGame>(listener: this, handler: HandleEnd);
         }
 
@@ -20,6 +25,11 @@ namespace Quantum
         //         Debug.Log("Runner get players count: " + QuantumRunner.Default.Game.GetLocalPlayers().Count + ", index 0: " + QuantumRunner.Default.Game.GetLocalPlayers()[0]._index);
         //     }
         // }
+
+        private void HandleNewRound(EventNewRound e)
+        {
+            RoundsText.SetText(e.RoundNumber.ToString());
+        }
 
         private void HandleEnd(EventEndGame e)
         {

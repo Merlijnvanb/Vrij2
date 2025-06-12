@@ -25,6 +25,16 @@ event EndGame
     bool Survivor2MadeIt;
 }
 
+event Intensity
+{
+    FP Value;
+}
+
+event NewRound
+{
+    int RoundNumber;
+}
+
 event Footstep
 {
     int SurvivorID;

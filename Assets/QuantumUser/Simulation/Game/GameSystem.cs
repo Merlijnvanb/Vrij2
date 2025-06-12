@@ -77,6 +77,7 @@ namespace Quantum
                 if (HitReg.CheckSurvivorHit(f))
                 {
                     RampBeatIntervalPercentage(f, 5);
+                    f.Events.Intensity(f.Global->BeatsRampPercentage);
                 }
             }
             
@@ -97,7 +98,7 @@ namespace Quantum
         {
             var sData1 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor1);
             var sData2 = f.Unsafe.GetPointer<SurvivorData>(f.Global->Survivor2);
-            Debug.Log("survivor1 connected: " + sData1->PlayerConnected + ", survivor2 connected: " + sData2->PlayerConnected);
+            //Debug.Log("survivor1 connected: " + sData1->PlayerConnected + ", survivor2 connected: " + sData2->PlayerConnected);
             
             return sData1->PlayerConnected && sData2->PlayerConnected;
         }
@@ -141,12 +142,15 @@ namespace Quantum
 
         private void ResetRound(Frame f)
         {
+            
             var gameConfig = f.FindAsset<GameConfig>(f.RuntimeConfig.GameConfig);
             f.Global->RoundNumber++;
             f.Global->PreRoundTimer = FPMath.FloorToInt(gameConfig.PreRoundTimerSeconds * 60);
             f.Global->MaxIntensityTimer = FPMath.FloorToInt(gameConfig.MaxIntensityTimerSeconds * 60);
             f.Global->PostRoundTimer = FPMath.FloorToInt(gameConfig.PostRoundTimerSeconds * 60);
             f.Global->RoundDone = false;
+            
+            f.Events.NewRound(f.Global->RoundNumber);
             
             SurvivorManager.RoundReset(f, f.Global->Survivor1);
             SurvivorManager.RoundReset(f, f.Global->Survivor2);

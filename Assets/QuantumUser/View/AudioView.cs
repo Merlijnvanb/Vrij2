@@ -28,10 +28,22 @@ namespace Quantum
 
         void Start()
         {
+            QuantumEvent.Subscribe<EventIntensity>(listener: this, handler: HandleIntensity);
+            QuantumEvent.Subscribe<EventNewRound>(listener: this, handler: HandleNewRound);
             QuantumEvent.Subscribe<EventFootstep>(listener: this, handler: HandleFootstep);
             QuantumEvent.Subscribe<EventHit>(listener: this, handler: HandleHit);
             QuantumEvent.Subscribe<EventParry>(listener: this, handler: HandleParry);
             QuantumEvent.Subscribe<EventDeath>(listener: this, handler: HandleDeath);
+        }
+
+        private void HandleIntensity(EventIntensity e)
+        {
+            Ambience.SetParameter("Intensity", e.Value.AsFloat);
+        }
+
+        private void HandleNewRound(EventNewRound e)
+        {
+            Camera.Play();
         }
 
         private void HandleFootstep(EventFootstep e)

@@ -46,13 +46,13 @@ MonoBehaviour:
     RawValue: 6553600
   MoveData:
     MoveVelocity:
-      RawValue: 9830
+      RawValue: 6554
   AttackData:
     TotalFrames: 60
     StartupFrames: 20
     ActiveFrames: 10
     Range:
-      RawValue: 98304
+      RawValue: 196608
     Knockback:
       RawValue: 13107
     Damage:

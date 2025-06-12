@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 9;
+        eventCount = 11;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -65,6 +65,8 @@ namespace Quantum {
           case EventTentacleMove.ID: result = typeof(EventTentacleMove); return;
           case EventUpdateHealth.ID: result = typeof(EventUpdateHealth); return;
           case EventEndGame.ID: result = typeof(EventEndGame); return;
+          case EventIntensity.ID: result = typeof(EventIntensity); return;
+          case EventNewRound.ID: result = typeof(EventNewRound); return;
           case EventFootstep.ID: result = typeof(EventFootstep); return;
           case EventHit.ID: result = typeof(EventHit); return;
           case EventParry.ID: result = typeof(EventParry); return;
@@ -99,6 +101,18 @@ namespace Quantum {
         var ev = _f.Context.AcquireEvent<EventEndGame>(EventEndGame.ID);
         ev.Survivor1MadeIt = Survivor1MadeIt;
         ev.Survivor2MadeIt = Survivor2MadeIt;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventIntensity Intensity(FP Value) {
+        var ev = _f.Context.AcquireEvent<EventIntensity>(EventIntensity.ID);
+        ev.Value = Value;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventNewRound NewRound(Int32 RoundNumber) {
+        var ev = _f.Context.AcquireEvent<EventNewRound>(EventNewRound.ID);
+        ev.RoundNumber = RoundNumber;
         _f.AddEvent(ev);
         return ev;
       }
@@ -244,14 +258,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventFootstep : EventBase {
+  public unsafe partial class EventIntensity : EventBase {
     public new const Int32 ID = 5;
-    public Int32 SurvivorID;
-    public FPVector2 Pos;
-    protected EventFootstep(Int32 id, EventFlags flags) : 
+    public FP Value;
+    protected EventIntensity(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventFootstep() : 
+    public EventIntensity() : 
         base(5, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -265,20 +278,18 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 59;
-        hash = hash * 31 + SurvivorID.GetHashCode();
-        hash = hash * 31 + Pos.GetHashCode();
+        hash = hash * 31 + Value.GetHashCode();
         return hash;
       }
     }
   }
-  public unsafe partial class EventHit : EventBase {
+  public unsafe partial class EventNewRound : EventBase {
     public new const Int32 ID = 6;
-    public Int32 SurvivorID;
-    public FPVector2 Pos;
-    protected EventHit(Int32 id, EventFlags flags) : 
+    public Int32 RoundNumber;
+    protected EventNewRound(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventHit() : 
+    public EventNewRound() : 
         base(6, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -292,20 +303,19 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 61;
-        hash = hash * 31 + SurvivorID.GetHashCode();
-        hash = hash * 31 + Pos.GetHashCode();
+        hash = hash * 31 + RoundNumber.GetHashCode();
         return hash;
       }
     }
   }
-  public unsafe partial class EventParry : EventBase {
+  public unsafe partial class EventFootstep : EventBase {
     public new const Int32 ID = 7;
     public Int32 SurvivorID;
     public FPVector2 Pos;
-    protected EventParry(Int32 id, EventFlags flags) : 
+    protected EventFootstep(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventParry() : 
+    public EventFootstep() : 
         base(7, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -325,14 +335,14 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventDeath : EventBase {
+  public unsafe partial class EventHit : EventBase {
     public new const Int32 ID = 8;
     public Int32 SurvivorID;
     public FPVector2 Pos;
-    protected EventDeath(Int32 id, EventFlags flags) : 
+    protected EventHit(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventDeath() : 
+    public EventHit() : 
         base(8, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -346,6 +356,60 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 71;
+        hash = hash * 31 + SurvivorID.GetHashCode();
+        hash = hash * 31 + Pos.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventParry : EventBase {
+    public new const Int32 ID = 9;
+    public Int32 SurvivorID;
+    public FPVector2 Pos;
+    protected EventParry(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventParry() : 
+        base(9, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 73;
+        hash = hash * 31 + SurvivorID.GetHashCode();
+        hash = hash * 31 + Pos.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventDeath : EventBase {
+    public new const Int32 ID = 10;
+    public Int32 SurvivorID;
+    public FPVector2 Pos;
+    protected EventDeath(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventDeath() : 
+        base(10, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 79;
         hash = hash * 31 + SurvivorID.GetHashCode();
         hash = hash * 31 + Pos.GetHashCode();
         return hash;
